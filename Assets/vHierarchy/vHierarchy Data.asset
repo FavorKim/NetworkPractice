@@ -16,6 +16,7 @@ MonoBehaviour:
     keys:
     - 2cda990e2423bbf4892e6590ba056729
     - 14652d3efa2f66048bd7d7af8995cc09
+    - 5b83491aa831b4641aa025af02391ea3
     values:
     - goDatas_byGlobalId:
         keys:
@@ -28,6 +29,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-2cda990e2423bbf4892e6590ba056729-366869022-0
         - globalObjectIdString: GlobalObjectId_V1-2-2cda990e2423bbf4892e6590ba056729-1045726390-0
         - globalObjectIdString: GlobalObjectId_V1-2-2cda990e2423bbf4892e6590ba056729-8635848075207439994-8043320465463800661
+        - globalObjectIdString: GlobalObjectId_V1-2-2cda990e2423bbf4892e6590ba056729-893376972-0
         values:
         - colorIndex: 4
           iconNameOrGuid: Folder Icon
@@ -47,6 +49,8 @@ MonoBehaviour:
           iconNameOrGuid: 
         - colorIndex: 2
           iconNameOrGuid: 
+        - colorIndex: 9
+          iconNameOrGuid: Folder Icon
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-1-14652d3efa2f66048bd7d7af8995cc09-8043320466110939862-0
@@ -86,3 +90,27 @@ MonoBehaviour:
           iconNameOrGuid: 
         - colorIndex: 2
           iconNameOrGuid: 
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-1-5b83491aa831b4641aa025af02391ea3-2066440985418537793-0
+        - globalObjectIdString: GlobalObjectId_V1-1-5b83491aa831b4641aa025af02391ea3-2066440986566099764-0
+        - globalObjectIdString: GlobalObjectId_V1-1-5b83491aa831b4641aa025af02391ea3-2066440985754645634-0
+        - globalObjectIdString: GlobalObjectId_V1-1-5b83491aa831b4641aa025af02391ea3-2066440985950592130-0
+        - globalObjectIdString: GlobalObjectId_V1-1-5b83491aa831b4641aa025af02391ea3-2066440985814061504-0
+        - globalObjectIdString: GlobalObjectId_V1-1-5b83491aa831b4641aa025af02391ea3-2066440986206617051-0
+        - globalObjectIdString: GlobalObjectId_V1-1-5b83491aa831b4641aa025af02391ea3-2066440985075487379-0
+        values:
+        - colorIndex: 9
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 3
+          iconNameOrGuid: 
+        - colorIndex: 4
+          iconNameOrGuid: 
+        - colorIndex: 4
+          iconNameOrGuid: 
+        - colorIndex: 2
+          iconNameOrGuid: 
+        - colorIndex: 6
+          iconNameOrGuid: Folder Icon
