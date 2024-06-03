@@ -30,6 +30,8 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-2cda990e2423bbf4892e6590ba056729-1045726390-0
         - globalObjectIdString: GlobalObjectId_V1-2-2cda990e2423bbf4892e6590ba056729-8635848075207439994-8043320465463800661
         - globalObjectIdString: GlobalObjectId_V1-2-2cda990e2423bbf4892e6590ba056729-893376972-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2cda990e2423bbf4892e6590ba056729-632102116-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2cda990e2423bbf4892e6590ba056729-1087724333-0
         values:
         - colorIndex: 4
           iconNameOrGuid: Folder Icon
@@ -50,6 +52,10 @@ MonoBehaviour:
         - colorIndex: 2
           iconNameOrGuid: 
         - colorIndex: 9
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 7
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 6
           iconNameOrGuid: Folder Icon
     - goDatas_byGlobalId:
         keys:
