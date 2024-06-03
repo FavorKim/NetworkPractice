@@ -39,14 +39,14 @@ public class LoginPanel : MonoBehaviour
             {
                 _dbConnection = conn;
                 //_dbConnection.Open();
-                Debug.Log("연결 성공");
+                WriteResultTxt("연결 성공");
                 return true;
             }
         }
         catch (System.Exception e)
         {
             Debug.LogWarning(e.ToString());
-            Debug.Log("연결 실패");
+            WriteResultTxt("연결 실패");
             return false;
         }
     }
@@ -55,16 +55,12 @@ public class LoginPanel : MonoBehaviour
     {
         if (!ConnectDB())
         {
-            TxT_Result.text = "Can't Connect DB";
+            WriteResultTxt("로그인 실패");
             return;
         }
 
         Dictionary<string, string> account = GetUserInfo();
         if (!CheckLogin(account, Id, Pw)) return;
-
-        TxT_Result.text = $"Account : {Id} - {Pw} ";
-
-
 
     }
 
@@ -76,14 +72,14 @@ public class LoginPanel : MonoBehaviour
             {
                 if (pw.Equals(account[ids]))
                 {
-                    Debug.Log("로그인 성공");
+                    WriteResultTxt("아이디 중복");
                     return true;
                 }
                 else
-                    Debug.Log("비밀번호가 다릅니다");
+                    WriteResultTxt("비밀번호가 다릅니다");
             }
         }
-        Debug.Log("로그인 실패");
+        WriteResultTxt("로그인 성공");
         return false;
     }
 
@@ -95,7 +91,7 @@ public class LoginPanel : MonoBehaviour
         if (account == null) return;
         if (account.ContainsKey(Id))
         {
-            Debug.Log("아이디 중복");
+            WriteResultTxt("아이디 중복");
             return;
         }
 
@@ -144,7 +140,6 @@ public class LoginPanel : MonoBehaviour
             cmd.CommandText = $"INSERT INTO user_info (U_ID,U_Password) VALUES('{id}','{pw}');";
             cmd.ExecuteNonQuery();
             _dbConnection.Close();
-            Debug.Log($"{id},{pw}");
             Debug.Log("회원가입 성공");
         }
         catch (System.Exception e)
@@ -155,6 +150,10 @@ public class LoginPanel : MonoBehaviour
         }
     }
 
+    void WriteResultTxt(string txt)
+    {
+        TxT_Result.text = txt;
+    }
 
 
     public void OnValueChange_Input(string value)
@@ -169,8 +168,11 @@ public class LoginPanel : MonoBehaviour
 
     public void OnClick_CreateAccount()
     {
-        Debug.Log(Input_ID);
-        Debug.Log(Input_PW);
+        if(string.IsNullOrWhiteSpace(Input_ID.text) || string.IsNullOrWhiteSpace(Input_PW.text))
+        {
+            TxT_Result.text = "아이디 혹은 비밀번호를 기입해주세요";
+            return;
+        }
         CreateAccount(Input_ID.text, Input_PW.text);
     }
 
@@ -178,4 +180,5 @@ public class LoginPanel : MonoBehaviour
     {
         _SignIn.SetActive(true);
     }
+    
 }
