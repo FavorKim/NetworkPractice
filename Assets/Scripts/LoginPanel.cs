@@ -12,6 +12,7 @@ public class LoginPanel : MonoBehaviour
     [SerializeField] TMP_InputField Input_PW;
     [SerializeField] Button Button_Login;
     [SerializeField] TMP_Text TxT_Result;
+    [SerializeField] GameObject _SignIn;
 
     private static MySqlConnection _dbConnection;
 
@@ -21,7 +22,12 @@ public class LoginPanel : MonoBehaviour
     [SerializeField] string _pw;
 
 
-
+    private void Awake()
+    {
+        if (_SignIn != null)
+            _SignIn.SetActive(false);
+        ConnectDB();
+    }
 
     bool ConnectDB()
     {
@@ -40,6 +46,7 @@ public class LoginPanel : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogWarning(e.ToString());
+            Debug.Log("연결 실패");
             return false;
         }
     }
@@ -53,7 +60,7 @@ public class LoginPanel : MonoBehaviour
         }
 
         Dictionary<string, string> account = GetUserInfo();
-        if(!CheckLogin(account, Id, Pw)) return;
+        if (!CheckLogin(account, Id, Pw)) return;
 
         TxT_Result.text = $"Account : {Id} - {Pw} ";
 
@@ -61,11 +68,11 @@ public class LoginPanel : MonoBehaviour
 
     }
 
-    public bool CheckLogin(Dictionary<string,string> account, string id, string pw)
+    public bool CheckLogin(Dictionary<string, string> account, string id, string pw)
     {
-        foreach(string ids in account.Keys)
+        foreach (string ids in account.Keys)
         {
-            if(ids.Equals(id))
+            if (ids.Equals(id))
             {
                 if (pw.Equals(account[ids]))
                 {
@@ -82,43 +89,47 @@ public class LoginPanel : MonoBehaviour
 
     void CreateAccount(string Id, string Pw)
     {
+        Debug.Log("id : "+Id +" pw : " + Pw);
+
         Dictionary<string, string> account = GetUserInfo();
-        foreach(string id in account.Keys)
+        if (account == null) return;
+        if (account.ContainsKey(Id))
         {
-            if(id.Equals(Id))
-            {
-                Debug.Log("아이디 중복");
-                return;
-            }
+            Debug.Log("아이디 중복");
+            return;
         }
+
+        CreateNewAccount(Id, Pw);
     }
 
-    
 
-    public static Dictionary<string,string> GetUserInfo()
+
+    public static Dictionary<string, string> GetUserInfo()
     {
         try
         {
             _dbConnection.Open();
             MySqlCommand sqlCmd = new MySqlCommand();
             sqlCmd.Connection = _dbConnection;
-            sqlCmd.CommandText = "SELECT U_ID FROM user_info";
+            sqlCmd.CommandText = "SELECT * FROM user_info ";
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(sqlCmd);
             DataSet dataSet = new DataSet();
             adapter.Fill(dataSet, "user_info");
 
             Dictionary<string, string> account = new();
-            foreach (DataRow row in dataSet.Tables)
+            foreach (DataRow row in dataSet.Tables["user_info"].Rows)
             {
                 account.Add(row["U_ID"].ToString(), row["U_Password"].ToString());
             }
             _dbConnection.Close();
+            Debug.Log("유저 정보 읽어오기 성공");
             return account;
         }
         catch (System.Exception e)
         {
             Debug.LogWarning(e.Message);
+            Debug.Log("유저 정보 읽어오기 실패");
             return null;
         }
     }
@@ -133,24 +144,22 @@ public class LoginPanel : MonoBehaviour
             cmd.CommandText = $"INSERT INTO user_info (U_ID,U_Password) VALUES('{id}','{pw}');";
             cmd.ExecuteNonQuery();
             _dbConnection.Close();
+            Debug.Log($"{id},{pw}");
+            Debug.Log("회원가입 성공");
         }
         catch (System.Exception e)
         {
             Debug.LogWarning(e);
+            Debug.Log("회원가입 실패");
             throw;
         }
     }
-    
-    
-    
+
+
+
     public void OnValueChange_Input(string value)
     {
         Button_Login.interactable = string.IsNullOrWhiteSpace(value) ? false : true;
-    }
-
-    public void OnEndEdit_Login(string value)
-    {
-        LogIn(Input_ID.text, Input_PW.text);
     }
 
     public void OnClick_LoginBtn()
@@ -158,13 +167,15 @@ public class LoginPanel : MonoBehaviour
         LogIn(Input_ID.text, Input_PW.text);
     }
 
-    public void OnEndEdit_CreateAccount(string value)
+    public void OnClick_CreateAccount()
     {
+        Debug.Log(Input_ID);
+        Debug.Log(Input_PW);
         CreateAccount(Input_ID.text, Input_PW.text);
     }
 
-    public void OnClick_CreateAccount()
+    public void OnClick_SignIn()
     {
-        CreateAccount(Input_ID.text, Input_PW.text);
+        _SignIn.SetActive(true);
     }
 }
