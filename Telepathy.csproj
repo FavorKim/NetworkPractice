@@ -59,13 +59,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\Log.cs" />
+    <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\Server.cs" />
+    <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\Common.cs" />
     <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\ConnectionState.cs" />
     <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\NetworkStreamExtensions.cs" />
     <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\MagnificentSendPipe.cs" />
-    <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\Server.cs" />
     <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\Client.cs" />
     <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\Pool.cs" />
-    <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\Common.cs" />
     <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\ThreadFunctions.cs" />
     <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\EventType.cs" />
     <Compile Include="Assets\Mirror\Transports\Telepathy\Telepathy\Utils.cs" />
@@ -971,12 +971,12 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.36f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

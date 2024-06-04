@@ -59,18 +59,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\vHierarchy\VHierarchyCache.cs" />
+    <Compile Include="Assets\vHierarchy\VHierarchyLightingWindow.cs" />
+    <Compile Include="Assets\vHierarchy\VHierarchyPaletteWindow.cs" />
+    <Compile Include="Assets\vHierarchy\VHierarchy.cs" />
+    <Compile Include="Assets\vHierarchy\VHierarchyComponentWindow.cs" />
+    <Compile Include="Assets\vHierarchy\VHierarchyMenuItems.cs" />
     <Compile Include="Assets\vHierarchy\VHierarchyComponentEditor.cs" />
     <Compile Include="Assets\vHierarchy\VHierarchyMenu.cs" />
     <Compile Include="Assets\vHierarchy\VHierarchyDataComponent.cs" />
-    <Compile Include="Assets\vHierarchy\VHierarchyLightingWindow.cs" />
-    <Compile Include="Assets\vHierarchy\VHierarchyPaletteWindow.cs" />
     <Compile Include="Assets\vHierarchy\VHierarchyPaletteEditor.cs" />
-    <Compile Include="Assets\vHierarchy\VHierarchy.cs" />
     <Compile Include="Assets\vHierarchy\VHierarchyIconEditor.cs" />
     <Compile Include="Assets\vHierarchy\VHierarchyPalette.cs" />
     <Compile Include="Assets\vHierarchy\VHierarchyLibs.cs" />
-    <Compile Include="Assets\vHierarchy\VHierarchyComponentWindow.cs" />
-    <Compile Include="Assets\vHierarchy\VHierarchyMenuItems.cs" />
     <Compile Include="Assets\vHierarchy\VHierarchyData.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -993,12 +993,12 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.36f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.TestRunner">

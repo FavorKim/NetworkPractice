@@ -58,50 +58,50 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Mirror\Components\Discovery\NetworkDiscoveryHUD.cs" />
     <Compile Include="Assets\Mirror\Components\NetworkRigidbody\NetworkRigidbodyUnreliable2D.cs" />
     <Compile Include="Assets\Mirror\Components\NetworkStatistics.cs" />
-    <Compile Include="Assets\Mirror\Components\InterestManagement\SpatialHashing\Grid2D.cs" />
     <Compile Include="Assets\Mirror\Components\LagCompensation\LagCompensator.cs" />
     <Compile Include="Assets\Mirror\Components\Experimental\NetworkLerpRigidbody.cs" />
+    <Compile Include="Assets\Mirror\Components\NetworkTransform\NetworkTransformUnreliable.cs" />
+    <Compile Include="Assets\Mirror\Components\AssemblyInfo.cs" />
+    <Compile Include="Assets\Mirror\Components\NetworkDiagnosticsDebugger.cs" />
+    <Compile Include="Assets\Mirror\Components\NetworkRoomManager.cs" />
+    <Compile Include="Assets\Mirror\Components\NetworkAnimator.cs" />
+    <Compile Include="Assets\Mirror\Components\NetworkLobbyPlayer.cs" />
+    <Compile Include="Assets\Mirror\Components\PredictedRigidbody\PredictedRigidbodyRemoteGhost.cs" />
+    <Compile Include="Assets\Mirror\Components\PredictedRigidbody\RigidbodyState.cs" />
+    <Compile Include="Assets\Mirror\Components\PredictedRigidbody\PredictionUtils.cs" />
+    <Compile Include="Assets\Mirror\Components\InterestManagement\Match\MatchInterestManagement.cs" />
+    <Compile Include="Assets\Mirror\Components\NetworkTransform\TransformSyncData.cs" />
+    <Compile Include="Assets\Mirror\Components\NetworkRigidbody\NetworkRigidbodyReliable.cs" />
+    <Compile Include="Assets\Mirror\Components\NetworkTransform\NetworkTransformBase.cs" />
+    <Compile Include="Assets\Mirror\Components\Discovery\NetworkDiscoveryHUD.cs" />
+    <Compile Include="Assets\Mirror\Components\InterestManagement\SpatialHashing\Grid2D.cs" />
     <Compile Include="Assets\Mirror\Components\PredictedRigidbody\PredictedRigidbodyPhysicsGhost.cs" />
     <Compile Include="Assets\Mirror\Components\Discovery\NetworkDiscovery.cs" />
-    <Compile Include="Assets\Mirror\Components\NetworkTransform\NetworkTransformUnreliable.cs" />
     <Compile Include="Assets\Mirror\Components\InterestManagement\Scene\SceneInterestManagement.cs" />
     <Compile Include="Assets\Mirror\Components\Discovery\ServerResponse.cs" />
     <Compile Include="Assets\Mirror\Components\NetworkTransform\TransformSnapshot.cs" />
     <Compile Include="Assets\Mirror\Components\GUIConsole.cs" />
-    <Compile Include="Assets\Mirror\Components\AssemblyInfo.cs" />
     <Compile Include="Assets\Mirror\Components\NetworkPingDisplay.cs" />
     <Compile Include="Assets\Mirror\Components\Experimental\NetworkRigidbody2D.cs" />
-    <Compile Include="Assets\Mirror\Components\NetworkDiagnosticsDebugger.cs" />
     <Compile Include="Assets\Mirror\Components\RemoteStatistics.cs" />
-    <Compile Include="Assets\Mirror\Components\NetworkRoomManager.cs" />
     <Compile Include="Assets\Mirror\Components\LagCompensation\HistoryCollider.cs" />
     <Compile Include="Assets\Mirror\Components\Experimental\NetworkRigidbody.cs" />
-    <Compile Include="Assets\Mirror\Components\NetworkAnimator.cs" />
     <Compile Include="Assets\Mirror\Components\InterestManagement\Team\NetworkTeam.cs" />
     <Compile Include="Assets\Mirror\Components\NetworkTransform\NetworkTransformChild.cs" />
-    <Compile Include="Assets\Mirror\Components\NetworkLobbyPlayer.cs" />
     <Compile Include="Assets\Mirror\Components\NetworkRigidbody\NetworkRigidbodyUnreliable.cs" />
     <Compile Include="Assets\Mirror\Components\Discovery\NetworkDiscoveryBase.cs" />
-    <Compile Include="Assets\Mirror\Components\PredictedRigidbody\PredictedRigidbodyRemoteGhost.cs" />
-    <Compile Include="Assets\Mirror\Components\PredictedRigidbody\RigidbodyState.cs" />
     <Compile Include="Assets\Mirror\Components\InterestManagement\Match\NetworkMatch.cs" />
     <Compile Include="Assets\Mirror\Components\Discovery\ServerRequest.cs" />
     <Compile Include="Assets\Mirror\Components\InterestManagement\Team\TeamInterestManagement.cs" />
     <Compile Include="Assets\Mirror\Components\NetworkLobbyManager.cs" />
-    <Compile Include="Assets\Mirror\Components\PredictedRigidbody\PredictionUtils.cs" />
-    <Compile Include="Assets\Mirror\Components\InterestManagement\Match\MatchInterestManagement.cs" />
     <Compile Include="Assets\Mirror\Components\InterestManagement\Distance\DistanceInterestManagementCustomRange.cs" />
     <Compile Include="Assets\Mirror\Components\NetworkRigidbody\NetworkRigidbodyReliable2D.cs" />
-    <Compile Include="Assets\Mirror\Components\NetworkTransform\TransformSyncData.cs" />
     <Compile Include="Assets\Mirror\Components\InterestManagement\Distance\DistanceInterestManagement.cs" />
     <Compile Include="Assets\Mirror\Components\NetworkTransform\NetworkTransformReliable.cs" />
     <Compile Include="Assets\Mirror\Components\NetworkTransform\NetworkTransform.cs" />
     <Compile Include="Assets\Mirror\Components\NetworkRoomPlayer.cs" />
-    <Compile Include="Assets\Mirror\Components\NetworkRigidbody\NetworkRigidbodyReliable.cs" />
-    <Compile Include="Assets\Mirror\Components\NetworkTransform\NetworkTransformBase.cs" />
     <Compile Include="Assets\Mirror\Components\PredictedRigidbody\PredictedRigidbody.cs" />
     <Compile Include="Assets\Mirror\Components\InterestManagement\SpatialHashing\SpatialHashingInterestManagement.cs" />
   </ItemGroup>
@@ -1005,12 +1005,12 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.36f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

@@ -1,4 +1,5 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,8 +18,6 @@ public class GamePlayer : NetworkBehaviour
     [SyncVar, SerializeField] private float _moveSpeed;
     [SerializeField] private float _rotateSpeed;
 
-    static int _imposterCount;
-    static int _nonImposters;
 
 
     private void Awake()
@@ -31,13 +30,6 @@ public class GamePlayer : NetworkBehaviour
         MovePlayer();
     }
 
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-        _imposterCount = NetworkServer.connections.Count / 5 + 1;
-        _nonImposters = NetworkServer.connections.Count;
-        SendIsImposter();
-    }
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
@@ -46,16 +38,16 @@ public class GamePlayer : NetworkBehaviour
         var cam = GameObject.Find("Cam_FPS");
         cam.transform.SetParent(PlayerHead.transform);
         cam.transform.localPosition = Vector3.zero;
-
+    }
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        GameManager.gamePlayers.Add(this);
     }
 
 
     #region ServerSide
-    [Server]
-    void SendIsImposter()
-    {
-        SetIsImposter();
-    }
+
     #endregion
 
     #region ClientSide
@@ -67,26 +59,12 @@ public class GamePlayer : NetworkBehaviour
 
     #region RPCs
     [ClientRpc]
-    void SetIsImposter()
+    public void SetImposter(bool isImposter)
     {
-        Debug.Log("setisimposter");
-        if (_imposterCount <= 0) { isImposter = false;  return; }
-
-        int index = Random.Range(0, _nonImposters);
-
-        _nonImposters--;
-        if (index < _imposterCount)
-        {
-            _imposterCount--;
-            isImposter = true;
-            return;
-        }
-        else
-        {
-            isImposter = false;
-            return;
-        }
+        Debug.Log("setimposter");
+        this.isImposter = isImposter;
     }
+
     #endregion
     #endregion
 

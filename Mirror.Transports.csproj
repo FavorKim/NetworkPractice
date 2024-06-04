@@ -58,24 +58,24 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Mirror\Transports\Encryption\EncryptionTransport.cs" />
     <Compile Include="Assets\Mirror\Transports\KCP\ThreadedKcpTransport.cs" />
     <Compile Include="Assets\Mirror\Transports\Latency\LatencySimulation.cs" />
+    <Compile Include="Assets\Mirror\Transports\Encryption\EncryptionCredentials.cs" />
+    <Compile Include="Assets\Mirror\Transports\Edgegap\EdgegapRelay\EdgegapKcpServer.cs" />
+    <Compile Include="Assets\Mirror\Transports\SimpleWeb\Editor\ClientWebsocketSettingsDrawer.cs" />
+    <Compile Include="Assets\Mirror\Transports\Edgegap\EdgegapRelay\Protocol.cs" />
+    <Compile Include="Assets\Mirror\Transports\Encryption\PubKeyInfo.cs" />
+    <Compile Include="Assets\Mirror\Transports\Threaded\ThreadedTransport.cs" />
+    <Compile Include="Assets\Mirror\Transports\Edgegap\EdgegapRelay\EdgegapKcpClient.cs" />
+    <Compile Include="Assets\Mirror\Transports\Encryption\EncryptionTransport.cs" />
     <Compile Include="Assets\Mirror\Transports\Telepathy\TelepathyTransport.cs" />
     <Compile Include="Assets\Mirror\Transports\Multiplex\MultiplexTransport.cs" />
     <Compile Include="Assets\Mirror\Transports\Encryption\EncryptedConnection.cs" />
     <Compile Include="Assets\Mirror\Transports\Middleware\MiddlewareTransport.cs" />
     <Compile Include="Assets\Mirror\Transports\Edgegap\EdgegapRelay\EdgegapKcpTransport.cs" />
-    <Compile Include="Assets\Mirror\Transports\Encryption\EncryptionCredentials.cs" />
-    <Compile Include="Assets\Mirror\Transports\Edgegap\EdgegapRelay\EdgegapKcpServer.cs" />
     <Compile Include="Assets\Mirror\Transports\KCP\KcpTransport.cs" />
-    <Compile Include="Assets\Mirror\Transports\SimpleWeb\Editor\ClientWebsocketSettingsDrawer.cs" />
-    <Compile Include="Assets\Mirror\Transports\Edgegap\EdgegapRelay\Protocol.cs" />
     <Compile Include="Assets\Mirror\Transports\Edgegap\EdgegapRelay\RelayCredentialsFromArgs.cs" />
     <Compile Include="Assets\Mirror\Transports\SimpleWeb\SimpleWebTransport.cs" />
-    <Compile Include="Assets\Mirror\Transports\Encryption\PubKeyInfo.cs" />
-    <Compile Include="Assets\Mirror\Transports\Threaded\ThreadedTransport.cs" />
-    <Compile Include="Assets\Mirror\Transports\Edgegap\EdgegapRelay\EdgegapKcpClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Transports\Mirror.Transports.asmdef" />
@@ -977,12 +977,12 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.36f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
