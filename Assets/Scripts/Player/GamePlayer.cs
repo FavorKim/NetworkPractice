@@ -8,12 +8,14 @@ using UnityEngine.InputSystem;
 public class GamePlayer : NetworkBehaviour
 {
     CharacterController _controller;
-    [SerializeField] GameObject PlayerHead;
+    [SerializeField] GameObject Gameobject_PlayerHead;
+    [SerializeField] GameObject Collider_ImposterKillRange;
 
-    [SerializeField] bool isImposter;
+    [SerializeField] bool _isImposter;
+    [SerializeField] bool _canKill;
 
     Vector3 _moveDir;
-    Vector2 dir;
+    Vector2 _dir;
 
     [SyncVar, SerializeField] private float _moveSpeed;
     [SerializeField] private float _rotateSpeed;
@@ -26,7 +28,6 @@ public class GamePlayer : NetworkBehaviour
     }
     private void FixedUpdate()
     {
-        if (!isLocalPlayer) return;
         MovePlayer();
     }
 
@@ -34,67 +35,84 @@ public class GamePlayer : NetworkBehaviour
     {
         base.OnStartLocalPlayer();
         //if (!isLocalPlayer) return;
-        //Camera.main.transform.SetParent(PlayerHead.transform);
+        //Camera.main.transform.SetParent(Gameobject_PlayerHead.transform);
         var cam = GameObject.Find("Cam_FPS");
-        cam.transform.SetParent(PlayerHead.transform);
+        cam.transform.SetParent(Gameobject_PlayerHead.transform);
         cam.transform.localPosition = Vector3.zero;
     }
     public override void OnStartServer()
     {
-        base.OnStartServer();
         GameManager.gamePlayers.Add(this);
     }
 
 
-    #region ServerSide
-
-    #endregion
-
-    #region ClientSide
+    #region Local
+    void SetImposterKillRange()
+    {
+        if (this.isLocalPlayer && _isImposter)
+            Collider_ImposterKillRange.SetActive(true);
+    }
     void MovePlayer()
     {
-        _moveDir = PlayerHead.transform.TransformDirection(new Vector3(dir.x, 0, dir.y)) * _moveSpeed * Time.deltaTime;
-        _controller.SimpleMove(_moveDir);
+        if (isLocalPlayer)
+        {
+            _moveDir = Gameobject_PlayerHead.transform.TransformDirection(new Vector3(_dir.x, 0, _dir.y)) * _moveSpeed * Time.deltaTime;
+            _controller.SimpleMove(_moveDir);
+        }
     }
+    #endregion
 
     #region RPCs
     [ClientRpc]
-    public void SetImposter(bool isImposter)
+    public void RpcSetImposter(bool isImposter)
     {
-        Debug.Log("setimposter");
-        this.isImposter = isImposter;
+        this._isImposter = isImposter;
+        SetImposterKillRange();
     }
 
+    [ClientRpc]
+    public void RpcOnKilled()
+    {
+        Debug.Log(netId+"is Killed");
+        gameObject.SetActive(false);
+    }
+    
     #endregion
+
+    #region Command
+    [Command]
+    public void KillCommand()
+    {
+        Debug.Log("killcmd");
+        RpcOnKilled();
+    }
     #endregion
 
     #region Events
     public void OnMove(InputValue val)
     {
         if (!isLocalPlayer) return;
-        dir = val.Get<Vector2>();
+        _dir = val.Get<Vector2>();
     }
     public void OnRotate(InputValue val)
     {
         if (!isLocalPlayer) return;
         Vector2 delta = val.Get<Vector2>();
         Vector2 rotateVector = new Vector2(-delta.y, delta.x);
-        PlayerHead.transform.Rotate(rotateVector * _rotateSpeed * Time.deltaTime);
-        PlayerHead.transform.eulerAngles = new Vector3(PlayerHead.transform.eulerAngles.x, PlayerHead.transform.eulerAngles.y, 0);
+        Gameobject_PlayerHead.transform.Rotate(rotateVector * _rotateSpeed * Time.deltaTime);
+        Gameobject_PlayerHead.transform.eulerAngles = new Vector3(Gameobject_PlayerHead.transform.eulerAngles.x, Gameobject_PlayerHead.transform.eulerAngles.y, 0);
     }
-    public void OnRecieveMsg(NetworkConnectionToClient conn, bool msg)
-    {
 
-    }
+    
     #endregion
-}
 
-public class ImposterSender : NetworkMessage
-{
-    bool isImposter;
-    public ImposterSender() { }
-    public ImposterSender(bool isImposter)
+    private void OnTriggerStay(Collider other)
     {
-        this.isImposter = isImposter;
+        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("col");
+            other.GetComponent<GamePlayer>()?.KillCommand();
+        }
     }
 }
+

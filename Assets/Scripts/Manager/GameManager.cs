@@ -25,20 +25,16 @@ public class GameManager : NetworkBehaviour
         _nonImposters = NetworkServer.connections.Count;
         _imposterCount = NetworkServer.connections.Count / 5 + 1;
 
-        Invoke("SetImposters", 1.0f);
+        Invoke("SetImposters", 1.5f);
     }
 
-    void InitPlayerList()
-    {
-        
-    }
 
     [Server]
     void SetImposters()
     {
         foreach(GamePlayer player in gamePlayers)
         {
-            player.SetImposter(GetRandomImposter());
+            player.RpcSetImposter(GetRandomImposter());
         }
     }
 
