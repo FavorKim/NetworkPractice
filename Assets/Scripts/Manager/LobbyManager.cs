@@ -11,4 +11,8 @@ public class LobbyManager : NetworkBehaviour
     {
         NetworkManager.singleton.StartHost();
     }
+    public void OnClick_JoinRoom()
+    {
+        NetworkManager.singleton.StartClient();
+    }
 }

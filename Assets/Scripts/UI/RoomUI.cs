@@ -20,4 +20,14 @@ public class RoomUI : NetworkBehaviour
     {
         Text_People.text = $"{NetworkManager.singleton.numPlayers} / {NetworkManager.singleton.maxConnections}";
     }
+
+    public void OnClick_ReadyBtn(bool value)
+    {
+        
+    }
+
+    void ClientReadyToBegin()
+    {
+
+    }
 }

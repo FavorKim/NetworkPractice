@@ -7,13 +7,13 @@ using UnityEngine.InputSystem;
 
 public class RoomPlayer : NetworkRoomPlayer
 {
-    [SerializeField] private string _id;
-    [SerializeField] private TMP_InputField _maxConnection;
+    [SerializeField, SyncVar] private string _id;
+    [SerializeField] private TMP_Text Text_Name;
 
-    [SyncVar, SerializeField] private float _playerSpeed = 2f;
+    [SerializeField] private float _playerSpeed = 2f;
     Animator _anim;
 
-    private Vector2 _playerMoveDir;
+    private Vector2 _playerMoveDir = Vector2.zero;
 
     private void Awake()
     {
@@ -23,10 +23,14 @@ public class RoomPlayer : NetworkRoomPlayer
     public override void OnStartClient()
     {
         base.OnStartClient();
-        Camera.main.transform.SetParent(transform);
-        Camera.main.transform.localPosition = new Vector3(0, 0, -10);
+        if (isLocalPlayer)
+        {
+            Camera.main.transform.SetParent(transform);
+            Camera.main.transform.localPosition = new Vector3(0, 0, -10);
+        }
     }
 
+    
 
     private void FixedUpdate()
     {
@@ -35,7 +39,7 @@ public class RoomPlayer : NetworkRoomPlayer
 
     private void Move()
     {
-        transform.Translate(_playerMoveDir);
+        transform.position += (Vector3)_playerMoveDir;
     }
 
     public void OnMove(InputValue val)
@@ -43,7 +47,7 @@ public class RoomPlayer : NetworkRoomPlayer
         Vector2 moveDir = val.Get<Vector2>();
         if (moveDir != Vector2.zero)
         {
-            _playerMoveDir = moveDir * _playerSpeed * Time.deltaTime;
+            _playerMoveDir = moveDir * Time.deltaTime * _playerSpeed;
             _anim.SetBool("isWalk", true);
         }
         else
@@ -52,5 +56,15 @@ public class RoomPlayer : NetworkRoomPlayer
             _anim.SetBool("isWalk", false);
         }
     }
+
+    //public void InitID()
+    //{
+    //    Text_Name.text = _id;
+    //}
+
+    //public void ReadytoBegin()
+    //{
+    //    CmdChangeReadyState(true);
+    //}
 
 }

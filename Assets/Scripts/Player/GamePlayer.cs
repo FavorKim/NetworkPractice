@@ -9,6 +9,8 @@ public class GamePlayer : NetworkBehaviour
     CharacterController _controller;
     [SerializeField] GameObject PlayerHead;
 
+    [SerializeField] bool isImposter;
+
     Vector3 _moveDir;
     Vector2 dir;
 
@@ -21,8 +23,21 @@ public class GamePlayer : NetworkBehaviour
         _controller = GetComponent<CharacterController>();
     }
 
+    
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        if (!isLocalPlayer) return;
+        //Camera.main.transform.SetParent(PlayerHead.transform);
+        var cam = GameObject.Find("Cam_FPS");
+        cam.transform.SetParent(PlayerHead.transform);
+        cam.transform.localPosition = Vector3.zero;
+
+    }
+
     private void FixedUpdate()
     {
+        if (!isLocalPlayer) return;
         MovePlayer();
     }
 
@@ -34,11 +49,13 @@ public class GamePlayer : NetworkBehaviour
 
     public void OnMove(InputValue val)
     {
+        if (!isLocalPlayer) return;
         dir = val.Get<Vector2>();
     }
 
     public void OnRotate(InputValue val)
     {
+        if (!isLocalPlayer) return;
         Vector2 delta = val.Get<Vector2>();
         Vector2 rotateVector = new Vector2(-delta.y, delta.x);
         PlayerHead.transform.Rotate(rotateVector * _rotateSpeed * Time.deltaTime);

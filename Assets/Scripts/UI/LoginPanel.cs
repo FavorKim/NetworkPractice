@@ -188,6 +188,7 @@ public class LoginPanel : MonoBehaviour
         GameObject_MainMenu.SetActive(true);
         transform.root.gameObject.SetActive(false);
         WriteResultTxt("Login Success");
+        //GameManager.Instance.InitUserID(Input_ID.text);
     }
     
 }

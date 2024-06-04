@@ -66,6 +66,7 @@
     <Compile Include="Assets\ZerinLabs_lowpolyPack_SciFi\ScriptsEditor\scrEdit_objectGridRepositioneer.cs" />
     <Compile Include="Assets\ZerinLabs_lowpolyPack_SciFi\ScriptsEditor\scrEdit_objectSnap.cs" />
     <Compile Include="Assets\Scripts\UI\RoomUI.cs" />
+    <Compile Include="Assets\Scripts\Manager\RoomManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />
