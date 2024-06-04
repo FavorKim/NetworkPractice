@@ -13,6 +13,7 @@ public class LoginPanel : MonoBehaviour
     [SerializeField] Button Button_Login;
     [SerializeField] TMP_Text TxT_Result;
     [SerializeField] GameObject _SignIn;
+    [SerializeField] GameObject GameObject_MainMenu;
 
     private static MySqlConnection _dbConnection;
 
@@ -39,14 +40,14 @@ public class LoginPanel : MonoBehaviour
             {
                 _dbConnection = conn;
                 //_dbConnection.Open();
-                WriteResultTxt("연결 성공");
+                WriteResultTxt("Connected");
                 return true;
             }
         }
         catch (System.Exception e)
         {
             Debug.LogWarning(e.ToString());
-            WriteResultTxt("연결 실패");
+            WriteResultTxt("Connecting Failed");
             return false;
         }
     }
@@ -55,13 +56,13 @@ public class LoginPanel : MonoBehaviour
     {
         if (!ConnectDB())
         {
-            WriteResultTxt("로그인 실패");
+            WriteResultTxt("Login Failed");
             return;
         }
 
         Dictionary<string, string> account = GetUserInfo();
         if (!CheckLogin(account, Id, Pw)) return;
-
+        OnLoginSuccess();
     }
 
     public bool CheckLogin(Dictionary<string, string> account, string id, string pw)
@@ -72,30 +73,30 @@ public class LoginPanel : MonoBehaviour
             {
                 if (pw.Equals(account[ids]))
                 {
-                    WriteResultTxt("아이디 중복");
                     return true;
                 }
                 else
-                    WriteResultTxt("비밀번호가 다릅니다");
+                    WriteResultTxt("Wrong Password");
             }
         }
-        WriteResultTxt("로그인 성공");
+        WriteResultTxt("ID Doesn't Exist");
         return false;
     }
 
     void CreateAccount(string Id, string Pw)
     {
-        Debug.Log("id : "+Id +" pw : " + Pw);
-
         Dictionary<string, string> account = GetUserInfo();
         if (account == null) return;
         if (account.ContainsKey(Id))
         {
-            WriteResultTxt("아이디 중복");
+            WriteResultTxt("ID Already being used");
             return;
         }
 
-        CreateNewAccount(Id, Pw);
+        if(CreateNewAccount(Id, Pw))
+        {
+            WriteResultTxt("SignIn Success");
+        }
     }
 
 
@@ -119,18 +120,18 @@ public class LoginPanel : MonoBehaviour
                 account.Add(row["U_ID"].ToString(), row["U_Password"].ToString());
             }
             _dbConnection.Close();
-            Debug.Log("유저 정보 읽어오기 성공");
+            Debug.Log("Loading user info Success");
             return account;
         }
         catch (System.Exception e)
         {
             Debug.LogWarning(e.Message);
-            Debug.Log("유저 정보 읽어오기 실패");
+            Debug.Log("Loading user info Failed");
             return null;
         }
     }
 
-    public static void CreateNewAccount(string id, string pw)
+    public static bool CreateNewAccount(string id, string pw)
     {
         try
         {
@@ -140,13 +141,14 @@ public class LoginPanel : MonoBehaviour
             cmd.CommandText = $"INSERT INTO user_info (U_ID,U_Password) VALUES('{id}','{pw}');";
             cmd.ExecuteNonQuery();
             _dbConnection.Close();
-            Debug.Log("회원가입 성공");
+            Debug.Log("Sign in Success");
+            return true;
         }
         catch (System.Exception e)
         {
             Debug.LogWarning(e);
-            Debug.Log("회원가입 실패");
-            throw;
+            Debug.Log("Sign in Failed");
+            return false;
         }
     }
 
@@ -170,7 +172,7 @@ public class LoginPanel : MonoBehaviour
     {
         if(string.IsNullOrWhiteSpace(Input_ID.text) || string.IsNullOrWhiteSpace(Input_PW.text))
         {
-            TxT_Result.text = "아이디 혹은 비밀번호를 기입해주세요";
+            WriteResultTxt("Fill in the ID / Password field please");
             return;
         }
         CreateAccount(Input_ID.text, Input_PW.text);
@@ -179,6 +181,13 @@ public class LoginPanel : MonoBehaviour
     public void OnClick_SignIn()
     {
         _SignIn.SetActive(true);
+    }
+
+    void OnLoginSuccess()
+    {
+        GameObject_MainMenu.SetActive(true);
+        transform.root.gameObject.SetActive(false);
+        WriteResultTxt("Login Success");
     }
     
 }
