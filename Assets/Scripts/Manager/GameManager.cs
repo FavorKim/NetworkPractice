@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
             DestroyImmediate(instance.gameObject);
         instance = this;
         DontDestroyOnLoad(gameObject);
+
     }
+
+    
 
 }
