@@ -59,10 +59,6 @@ public class GamePlayer : NetworkBehaviour
     {
         RaycastHit[] hit = null;
         GamePlayer dest = null;
-        //if(Physics.Raycast(Gameobject_PlayerHead.transform.forward, Gameobject_PlayerHead.transform.forward, out hit, 3, LayerMask_Player))
-        //{
-        //   dest = hit.collider.GetComponent<GamePlayer>();
-        //}
         hit = Physics.RaycastAll(Gameobject_PlayerHead.transform.position, Gameobject_PlayerHead.transform.forward, 3.0f, LayerMask_Player);
         foreach(var r in hit)
         {
@@ -72,7 +68,7 @@ public class GamePlayer : NetworkBehaviour
         }
 
         return dest;
-    } 
+    }
 
     #endregion
 

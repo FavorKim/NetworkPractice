@@ -67,6 +67,8 @@
     <Compile Include="Assets\Scripts\Manager\LobbyManager.cs" />
     <Compile Include="Assets\Scripts\UI\RoomUI.cs" />
     <Compile Include="Assets\Scripts\Manager\RoomManager.cs" />
+    <Compile Include="Assets\Scripts\UI\PlayerVoter.cs" />
+    <Compile Include="Assets\Scripts\Manager\VoteManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />
