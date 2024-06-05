@@ -32,7 +32,6 @@ public class GameManager : NetworkBehaviour
     [Server]
     void SetImposters()
     {
-        gamePlayers.Clear();
 
         foreach (GamePlayer player in gamePlayers)
         {
@@ -55,5 +54,9 @@ public class GameManager : NetworkBehaviour
         {
             return false;
         }
+    }
+    public override void OnStopServer()
+    {
+        gamePlayers.Clear();
     }
 }

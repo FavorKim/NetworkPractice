@@ -111,7 +111,7 @@ public class GamePlayer : NetworkBehaviour
         if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("col");
-            other.GetComponent<GamePlayer>()?.KillCommand();
+            other.transform.root.GetComponent<GamePlayer>()?.KillCommand();
         }
     }
 }
