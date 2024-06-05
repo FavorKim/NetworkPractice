@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class RoomPlayer : NetworkRoomPlayer
 {
-    [SerializeField, SyncVar] private string _id;
+    [SerializeField, SyncVar(hook = "InitID")] private string _id;
     [SerializeField] private TMP_Text Text_Name;
 
     [SerializeField] private float _playerSpeed = 2f;
@@ -57,10 +57,10 @@ public class RoomPlayer : NetworkRoomPlayer
         }
     }
 
-    //public void InitID()
-    //{
-    //    Text_Name.text = _id;
-    //}
+    public void InitID(string _, string value)
+    {
+        Text_Name.text = value;
+    }
 
     //public void ReadytoBegin()
     //{

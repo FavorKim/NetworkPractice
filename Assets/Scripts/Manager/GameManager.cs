@@ -8,14 +8,14 @@ public class GameManager : NetworkBehaviour
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
 
+    
+    public static List<GamePlayer> gamePlayers = new List<GamePlayer>();
 
-    [SerializeField] public static List<GamePlayer> gamePlayers = new List<GamePlayer>();
 
+    static int _nonImposters;
+    static int _imposterCount;
 
-    [SerializeField] static int _nonImposters;
-    [SerializeField] static int _imposterCount;
-
-    void Start()
+    public override void OnStartServer()
     {
         if (instance != null && instance != this)
             DestroyImmediate(instance.gameObject);
@@ -25,11 +25,11 @@ public class GameManager : NetworkBehaviour
         _nonImposters = NetworkServer.connections.Count;
         _imposterCount = NetworkServer.connections.Count / 5 + 1;
 
-        Invoke("SetImposters", 1.5f);
+        Invoke("SetImposters" , 5.0f);
     }
 
 
-    [Server]
+
     void SetImposters()
     {
         foreach(GamePlayer player in gamePlayers)

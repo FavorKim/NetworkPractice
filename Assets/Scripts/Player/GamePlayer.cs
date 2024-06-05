@@ -34,12 +34,11 @@ public class GamePlayer : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        //if (!isLocalPlayer) return;
-        //Camera.main.transform.SetParent(Gameobject_PlayerHead.transform);
         var cam = GameObject.Find("Cam_FPS");
         cam.transform.SetParent(Gameobject_PlayerHead.transform);
         cam.transform.localPosition = Vector3.zero;
     }
+
     public override void OnStartServer()
     {
         GameManager.gamePlayers.Add(this);
@@ -108,6 +107,7 @@ public class GamePlayer : NetworkBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        Debug.Log(other);
         if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("col");
