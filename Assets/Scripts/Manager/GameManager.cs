@@ -8,7 +8,7 @@ public class GameManager : NetworkBehaviour
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
 
-    
+
     public static List<GamePlayer> gamePlayers = new List<GamePlayer>();
 
 
@@ -25,19 +25,21 @@ public class GameManager : NetworkBehaviour
         _nonImposters = NetworkServer.connections.Count;
         _imposterCount = NetworkServer.connections.Count / 5 + 1;
 
-        Invoke("SetImposters" , 5.0f);
+        Invoke("SetImposters", 1.0f);
     }
 
 
-
+    [Server]
     void SetImposters()
     {
-        foreach(GamePlayer player in gamePlayers)
+        gamePlayers.Clear();
+
+        foreach (GamePlayer player in gamePlayers)
         {
             player.RpcSetImposter(GetRandomImposter());
         }
     }
-
+    [Server]
     bool GetRandomImposter()
     {
         if (_imposterCount == 0) return false;

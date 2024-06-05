@@ -12,6 +12,7 @@ public class RoomPlayer : NetworkRoomPlayer
 
     [SerializeField] private float _playerSpeed = 2f;
     Animator _anim;
+    bool isInited = false;
 
     private Vector2 _playerMoveDir = Vector2.zero;
 
@@ -23,8 +24,9 @@ public class RoomPlayer : NetworkRoomPlayer
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if (isLocalPlayer)
+        if (isLocalPlayer && !isInited)
         {
+            isInited = true;
             Camera.main.transform.SetParent(transform);
             Camera.main.transform.localPosition = new Vector3(0, 0, -10);
         }
