@@ -57,30 +57,22 @@ public class GamePlayer : NetworkBehaviour
 
     GamePlayer RaycastGetPlayer()
     {
-        Collider[] hit;
+        RaycastHit[] hit = null;
         GamePlayer dest = null;
-        float minDist = 99.0f;
         //if(Physics.Raycast(Gameobject_PlayerHead.transform.forward, Gameobject_PlayerHead.transform.forward, out hit, 3, LayerMask_Player))
         //{
         //   dest = hit.collider.GetComponent<GamePlayer>();
         //}
-        //hit = Physics.RaycastAll(Gameobject_PlayerHead.transform.forward, Gameobject_PlayerHead.transform.forward, 3.0f, LayerMask_Player);
-        hit = Physics.OverlapSphere(transform.forward, 2.0f, LayerMask_Player);
-        foreach (var r in hit)
+        hit = Physics.RaycastAll(Gameobject_PlayerHead.transform.position, Gameobject_PlayerHead.transform.forward, 3.0f, LayerMask_Player);
+        foreach(var r in hit)
         {
-            if (r == this) continue;
-            var dist = Vector3.Distance(r.transform.position, transform.position);
-            if (dist < minDist)
-            {
-                minDist = dist;
-                dest = r.GetComponent<GamePlayer>();
-            }
+            Debug.Log(r.collider.name);
+            if (r.collider == this) continue;
+            dest =  r.collider.GetComponent<GamePlayer>();
         }
 
         return dest;
-    }
-
-
+    } 
 
     #endregion
 
@@ -94,10 +86,10 @@ public class GamePlayer : NetworkBehaviour
     [ClientRpc]
     public void RpcOnKilled()
     {
-        Debug.Log(netId + "is Killed");
+        Debug.Log(netId+"is Killed");
         //gameObject.SetActive(false);
     }
-
+    
     #endregion
 
     #region Command
@@ -127,10 +119,10 @@ public class GamePlayer : NetworkBehaviour
     {
         if (_isImposter)
         {
-            RaycastGetPlayer()?.KillCommand();
+            RaycastGetPlayer().KillCommand();
         }
     }
-
+    
     #endregion
 
     //private void OnTriggerStay(Collider other)
