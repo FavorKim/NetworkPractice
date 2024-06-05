@@ -9,10 +9,10 @@ public class GamePlayer : NetworkBehaviour
 {
     CharacterController _controller;
     [SerializeField] GameObject Gameobject_PlayerHead;
-    [SerializeField] GameObject Collider_ImposterKillRange;
 
     [SerializeField] bool _isImposter;
     [SerializeField] bool _canKill;
+    [SerializeField] LayerMask LayerMask_Player;
 
     Vector3 _moveDir;
     Vector2 _dir;
@@ -46,11 +46,6 @@ public class GamePlayer : NetworkBehaviour
 
 
     #region Local
-    void SetImposterKillRange()
-    {
-        if (this.isLocalPlayer && _isImposter)
-            Collider_ImposterKillRange.SetActive(true);
-    }
     void MovePlayer()
     {
         if (isLocalPlayer)
@@ -59,6 +54,34 @@ public class GamePlayer : NetworkBehaviour
             _controller.SimpleMove(_moveDir);
         }
     }
+
+    GamePlayer RaycastGetPlayer()
+    {
+        Collider[] hit;
+        GamePlayer dest = null;
+        float minDist = 99.0f;
+        //if(Physics.Raycast(Gameobject_PlayerHead.transform.forward, Gameobject_PlayerHead.transform.forward, out hit, 3, LayerMask_Player))
+        //{
+        //   dest = hit.collider.GetComponent<GamePlayer>();
+        //}
+        //hit = Physics.RaycastAll(Gameobject_PlayerHead.transform.forward, Gameobject_PlayerHead.transform.forward, 3.0f, LayerMask_Player);
+        hit = Physics.OverlapSphere(transform.forward, 2.0f, LayerMask_Player);
+        foreach (var r in hit)
+        {
+            if (r == this) continue;
+            var dist = Vector3.Distance(r.transform.position, transform.position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                dest = r.GetComponent<GamePlayer>();
+            }
+        }
+
+        return dest;
+    }
+
+
+
     #endregion
 
     #region RPCs
@@ -66,23 +89,22 @@ public class GamePlayer : NetworkBehaviour
     public void RpcSetImposter(bool isImposter)
     {
         this._isImposter = isImposter;
-        SetImposterKillRange();
     }
 
     [ClientRpc]
     public void RpcOnKilled()
     {
-        Debug.Log(netId+"is Killed");
-        gameObject.SetActive(false);
+        Debug.Log(netId + "is Killed");
+        //gameObject.SetActive(false);
     }
-    
+
     #endregion
 
     #region Command
     [Command]
     public void KillCommand()
     {
-        Debug.Log("killcmd");
+        Debug.Log("kill : " + name);
         RpcOnKilled();
     }
     #endregion
@@ -101,18 +123,22 @@ public class GamePlayer : NetworkBehaviour
         Gameobject_PlayerHead.transform.Rotate(rotateVector * _rotateSpeed * Time.deltaTime);
         Gameobject_PlayerHead.transform.eulerAngles = new Vector3(Gameobject_PlayerHead.transform.eulerAngles.x, Gameobject_PlayerHead.transform.eulerAngles.y, 0);
     }
-
-    
-    #endregion
-
-    private void OnTriggerStay(Collider other)
+    public void OnKill(InputValue val)
     {
-        Debug.Log(other);
-        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.Space))
+        if (_isImposter)
         {
-            Debug.Log("col");
-            other.transform.root.GetComponent<GamePlayer>()?.KillCommand();
+            RaycastGetPlayer()?.KillCommand();
         }
     }
+
+    #endregion
+
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        other.transform.root.GetComponent<GamePlayer>()?.KillCommand();
+    //    }
+    //}
 }
 
