@@ -11,7 +11,7 @@ public class MeetingPlayerPanel : MonoBehaviour
     [SerializeField] Image Img_PlayerColor;
     [SerializeField] Image Img_Reporter;
     [SerializeField] Image Img_Dead;
-
+    [SerializeField] Image Img_IVoted;
 
     public void SetVoter(string playername, Color color)
     {

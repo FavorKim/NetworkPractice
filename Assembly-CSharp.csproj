@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scripts\Util\SingletonNetworkBehaviour.cs" />
     <Compile Include="Assets\Scripts\Util\SingletonMonoBehaviour.cs" />
     <Compile Include="Assets\Scripts\UI\ImposterSetUI.cs" />
+    <Compile Include="Assets\Scripts\UI\MeetingUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />

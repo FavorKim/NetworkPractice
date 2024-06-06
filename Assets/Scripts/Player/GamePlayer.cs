@@ -19,9 +19,6 @@ public class GamePlayer : NetworkBehaviour
     Vector3 _moveDir;
     Vector2 _dir;
 
-
-
-
     [SyncVar, SerializeField] private float _moveSpeed;
     [SerializeField] private float _rotateSpeed;
 
@@ -29,6 +26,10 @@ public class GamePlayer : NetworkBehaviour
     [SyncVar(hook = nameof(SetColor_Hook))] Color _playerColor;
 
     MeshRenderer _renderer;
+
+    public bool GetIsImposter() { return _isImposter; }
+
+
 
     private void Awake()
     {
