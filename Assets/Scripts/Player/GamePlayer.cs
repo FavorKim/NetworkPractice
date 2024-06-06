@@ -2,6 +2,7 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,7 @@ public class GamePlayer : NetworkBehaviour
 {
     CharacterController _controller;
     [SerializeField] GameObject Gameobject_PlayerHead;
+    [SerializeField] TMP_Text Text_PlayerName;
 
     [SerializeField] bool _isImposter;
     [SerializeField] bool _canKill;
@@ -20,12 +22,16 @@ public class GamePlayer : NetworkBehaviour
     [SyncVar, SerializeField] private float _moveSpeed;
     [SerializeField] private float _rotateSpeed;
 
+    [SyncVar(hook = nameof(SetName_Hook))] string _playerName;
+    [SyncVar(hook = nameof(SetColor_Hook))] Color _playerColor;
 
+    MeshRenderer _renderer;
 
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
     }
+    
     private void FixedUpdate()
     {
         MovePlayer();
@@ -37,6 +43,8 @@ public class GamePlayer : NetworkBehaviour
         var cam = GameObject.Find("Cam_FPS");
         cam.transform.SetParent(Gameobject_PlayerHead.transform);
         cam.transform.localPosition = Vector3.zero;
+        Cmd_SetName(PlayerInfo.Instance.GetName());
+        Cmd_SetColor(PlayerInfo.Instance.GetColor());
     }
 
     public override void OnStartServer()
@@ -95,6 +103,16 @@ public class GamePlayer : NetworkBehaviour
         Debug.Log("kill : " + name);
         RpcOnKilled();
     }
+    [Command]
+    public void Cmd_SetName(string name)
+    {
+        _playerName = name;
+    }
+    [Command]
+    public void Cmd_SetColor(Color color)
+    {
+        _playerColor = color;
+    }
     #endregion
 
     #region Events
@@ -121,6 +139,15 @@ public class GamePlayer : NetworkBehaviour
     
     #endregion
 
+    void SetName_Hook(string old, string recent)
+    {
+        Text_PlayerName.text = recent;
+    }
+    void SetColor_Hook(Color old, Color recent)
+    {
+        if(_renderer == null) _renderer = GetComponent<MeshRenderer>();
+        _renderer.material.color = recent;
+    }
     //private void OnTriggerStay(Collider other)
     //{
     //    if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.Space))

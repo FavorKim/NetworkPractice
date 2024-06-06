@@ -189,8 +189,7 @@ public class LoginPanel : MonoBehaviour
         GameObject_MainMenu.SetActive(true);
         transform.root.gameObject.SetActive(false);
         WriteResultTxt("Login Success");
-        var man = NetworkManager.singleton as RoomManager;
-        man.localPlayerName = Input_ID.text;
+        PlayerInfo.Instance.SetName(Input_ID.text);
     }
     
 }

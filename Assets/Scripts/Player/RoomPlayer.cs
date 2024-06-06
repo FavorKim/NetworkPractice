@@ -20,6 +20,8 @@ public class RoomPlayer : NetworkRoomPlayer
     SpriteRenderer _spriteRenderer;
 
 
+    public string GetPlayerName() {  return _playerName; }
+
 
     private void Awake()
     {
@@ -32,9 +34,10 @@ public class RoomPlayer : NetworkRoomPlayer
         if (isLocalPlayer)
         {
             var man = NetworkManager.singleton as RoomManager;
-            Cmd_SetName(man.localPlayerName);
-
-        } 
+            Cmd_SetName(PlayerInfo.Instance.GetName());
+            PlayerInfo.Instance.SetColor(PlayerColor.GetColor(playerColor));
+        }
+        
     }
     private void FixedUpdate()
     {
@@ -56,6 +59,33 @@ public class RoomPlayer : NetworkRoomPlayer
 
     }
     
+
+
+
+
+
+    private void Move()
+    {
+        transform.position += (Vector3)_playerMoveDir;
+    }
+    public void OnMove(InputValue val)
+    {
+        if (isLocalPlayer)
+        {
+            Vector2 moveDir = val.Get<Vector2>();
+            if (moveDir != Vector2.zero)
+            {
+                _playerMoveDir = moveDir * Time.deltaTime * _playerSpeed;
+                _anim.SetBool("isWalk", true);
+            }
+            else
+            {
+                _playerMoveDir = Vector2.zero;
+                _anim.SetBool("isWalk", false);
+            }
+        }
+    }
+
 
 
     void SetColor()
@@ -82,31 +112,6 @@ public class RoomPlayer : NetworkRoomPlayer
         }
         playerColor = color;
     }
-
-    private void Move()
-    {
-        transform.position += (Vector3)_playerMoveDir;
-    }
-
-    public void OnMove(InputValue val)
-    {
-        if (isLocalPlayer)
-        {
-            Vector2 moveDir = val.Get<Vector2>();
-            if (moveDir != Vector2.zero)
-            {
-                _playerMoveDir = moveDir * Time.deltaTime * _playerSpeed;
-                _anim.SetBool("isWalk", true);
-            }
-            else
-            {
-                _playerMoveDir = Vector2.zero;
-                _anim.SetBool("isWalk", false);
-            }
-        }
-    }
-
-
     void SetPlayerColor_Hook(EPlayerColor old, EPlayerColor recent)
     {
         if (_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();

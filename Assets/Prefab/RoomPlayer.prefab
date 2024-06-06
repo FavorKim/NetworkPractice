@@ -283,9 +283,9 @@ MonoBehaviour:
   showRoomGUI: 1
   readyToBegin: 0
   index: 0
-  _id: 0
   Text_Name: {fileID: 8221279699993360035}
   _playerSpeed: 10
+  _playerName: 
 --- !u!114 &5577356993608960953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,5 +451,5 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
