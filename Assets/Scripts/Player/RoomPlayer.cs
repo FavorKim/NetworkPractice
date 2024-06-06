@@ -9,16 +9,30 @@ public class RoomPlayer : NetworkRoomPlayer
 {
     [SerializeField, SyncVar(hook = "InitID")] private string _id;
     [SerializeField] private TMP_Text Text_Name;
-
     [SerializeField] private float _playerSpeed = 2f;
-    Animator _anim;
-    bool isInited = false;
 
+    bool isInited = false;
     private Vector2 _playerMoveDir = Vector2.zero;
+    [SyncVar(hook =nameof(SetPlayerColor_Hook))] EPlayerColor playerColor;
+    [SyncVar] string _playerName;
+
+    Animator _anim;
+    SpriteRenderer _spriteRenderer;
+
+    
 
     private void Awake()
     {
         _anim = GetComponent<Animator>();
+    }
+    public override void Start()
+    {
+        base.Start();
+        SetColor();
+    }
+    private void FixedUpdate()
+    {
+        Move();
     }
 
     public override void OnStartClient()
@@ -32,11 +46,30 @@ public class RoomPlayer : NetworkRoomPlayer
         }
     }
 
-    
 
-    private void FixedUpdate()
+    void SetColor()
     {
-        Move();
+        var roomSlots = (NetworkManager.singleton as RoomManager).roomSlots;
+        EPlayerColor color = EPlayerColor.Red;
+        for(int i = 0; i < (int)EPlayerColor.Lime + 1; i++)
+        {
+            bool isSame = false;
+            foreach(var roomPlayer in roomSlots)
+            {
+                var player = roomPlayer as RoomPlayer;
+                if (player.playerColor == (EPlayerColor)i && roomPlayer.netId!=netId)
+                {
+                    isSame = true;
+                    break;
+                }
+            }
+            if (!isSame)
+            {
+                color = (EPlayerColor)i;
+                break;
+            }
+        }
+        playerColor = color;
     }
 
     private void Move()
@@ -62,6 +95,17 @@ public class RoomPlayer : NetworkRoomPlayer
     public void InitID(string _, string value)
     {
         Text_Name.text = value;
+    }
+
+    void SetPlayerColor_Hook(EPlayerColor old, EPlayerColor recent)
+    {
+        if(_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer.material.SetColor("_PlayerColor", PlayerColor.GetColor(recent));
+    }
+    void SetPlayerName_Hook(string old, string recent)
+    {
+        _playerName = recent;
+        Text_Name.text = _playerName;
     }
 
     //public void ReadytoBegin()

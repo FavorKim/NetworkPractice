@@ -5,10 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class PlayerVoter : MonoBehaviour
+public class MeetingPlayerPanel : MonoBehaviour
 {
     [SerializeField] TMP_Text Text_Playername;
     [SerializeField] Image Img_PlayerColor;
+    [SerializeField] Image Img_Reporter;
+    [SerializeField] Image Img_Dead;
+
 
     public void SetVoter(string playername, Color color)
     {
