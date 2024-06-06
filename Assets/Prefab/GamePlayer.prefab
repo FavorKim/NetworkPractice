@@ -441,12 +441,17 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   Gameobject_PlayerHead: {fileID: 8341548258992323058}
+  Prefab_DeadBody: {fileID: 8027603871048341619, guid: bb4cbadec84a567448865ca3b9b62e36, type: 3}
   Text_PlayerName: {fileID: 8999397970423226115}
   _isImposter: 0
   _canKill: 0
   LayerMask_Player:
     serializedVersion: 2
     m_Bits: 64
+  LayerMask_Body:
+    serializedVersion: 2
+    m_Bits: 128
+  _votedNumber: 0
   _moveSpeed: 200
   _rotateSpeed: 10
 --- !u!114 &8341548259392892073

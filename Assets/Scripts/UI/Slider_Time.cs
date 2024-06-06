@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class Slider_Time : MonoBehaviour
 {
     [SerializeField] Slider slider_Timebar;
+    [SerializeField] float meetingTime;
 
     private void FixedUpdate()
     {
-        slider_Timebar.value -= Time.deltaTime / 60;
+        slider_Timebar.value -= Time.deltaTime / meetingTime;
     }
 }

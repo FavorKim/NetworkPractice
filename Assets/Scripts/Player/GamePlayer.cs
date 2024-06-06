@@ -10,11 +10,13 @@ public class GamePlayer : NetworkBehaviour
 {
     CharacterController _controller;
     [SerializeField] GameObject Gameobject_PlayerHead;
+    [SerializeField] GameObject Prefab_DeadBody;
     [SerializeField] TMP_Text Text_PlayerName;
 
     [SerializeField] bool _isImposter;
     [SerializeField] bool _canKill;
     [SerializeField] LayerMask LayerMask_Player;
+    [SerializeField] LayerMask LayerMask_Body;
     [SerializeField] public bool _IsDead { get; set; }
     [SerializeField, SyncVar(hook = nameof(SetVotedNum_Hook))] int _votedNumber;
 
@@ -77,13 +79,22 @@ public class GamePlayer : NetworkBehaviour
         hit = Physics.RaycastAll(Gameobject_PlayerHead.transform.position, Gameobject_PlayerHead.transform.forward, 3.0f, LayerMask_Player);
         foreach(var r in hit)
         {
-            Debug.Log(r.collider.name);
             if (r.collider == this) continue;
             dest =  r.collider.GetComponent<GamePlayer>();
         }
 
         return dest;
     }
+
+    void RayCastBody()
+    {
+        if(Physics.Raycast(Gameobject_PlayerHead.transform.position, Gameobject_PlayerHead.transform.forward, 4.0f, LayerMask_Body))
+        {
+            GameSceneUIManager.Instance.CmdRpc_Report();
+        }
+    }
+
+
 
     #endregion
 
@@ -100,24 +111,31 @@ public class GamePlayer : NetworkBehaviour
     {
         Debug.Log(netId+"is Killed");
         _IsDead = true;
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
-    
+    [ClientRpc]
+    void Rpc_SetBodyColor(GameObject body, GamePlayer killed)
+    {
+        body.GetComponent<MeshRenderer>().material.color = killed._playerColor;
+    }
 
     #endregion
 
     #region Command
-    [Command]
-    public void KillCommand(GamePlayer target)
+    [Command(requiresAuthority =false)]
+    public void KillCommand()
     {
-        target.RpcOnKilled();
+        var body = Instantiate(Prefab_DeadBody, transform.position, Prefab_DeadBody.transform.rotation);
+        NetworkServer.Spawn(body);
+        Rpc_SetBodyColor(body, this);
+        RpcOnKilled();
     }
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_SetName(string name)
     {
         _playerName = name;
     }
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_SetColor(Color color)
     {
         _playerColor = color;
@@ -142,8 +160,12 @@ public class GamePlayer : NetworkBehaviour
     {
         if (_isImposter)
         {
-            KillCommand(RaycastGetPlayer());
+            RaycastGetPlayer().KillCommand();
         }
+    }
+    public void OnReport(InputValue val)
+    {
+        RayCastBody();
     }
     
     #endregion

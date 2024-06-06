@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class MeetingPlayerPanel : MonoBehaviour
+public class MeetingPlayerPanel : NetworkBehaviour
 {
     [SerializeField] TMP_Text Text_Playername;
     [SerializeField] Image Img_PlayerColor;
@@ -14,6 +15,8 @@ public class MeetingPlayerPanel : MonoBehaviour
     [SerializeField] GridLayoutGroup Group_Voted;
     GamePlayer player;
 
+
+    [Command(requiresAuthority = false), ClientRpc]
     public void SetVoter(GamePlayer player)
     {
         this.player = player;
@@ -27,11 +30,15 @@ public class MeetingPlayerPanel : MonoBehaviour
         }
     }
 
+
+    [Command(requiresAuthority = false), ClientRpc]
+
     public void OnClick_Panel()
     {
         player.Voted();
     }
 
+    [Command(requiresAuthority = false), ClientRpc]
     public void OnMeetingEnd()
     {
         for(int i=0; i<player.GetVotedNum(); i++)

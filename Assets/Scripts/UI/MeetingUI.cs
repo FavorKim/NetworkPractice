@@ -5,22 +5,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MeetingUI : MonoBehaviour
+public class MeetingUI : NetworkBehaviour
 {
     [SerializeField] GameObject PlayerPanelPref;
     [SerializeField] GridLayoutGroup GridLayout_Players;
     List<MeetingPlayerPanel> meetingPlayerPanels = new List<MeetingPlayerPanel>();
 
-    public void OnOpenMeeting()
+
+    
+
+    [Command(requiresAuthority = false), ClientRpc]
+    public void CmdRpc_OnOpenMeeting()
     {
-        foreach(GamePlayer player in GameManager.gamePlayers)
+        foreach (GamePlayer player in GameManager.gamePlayers)
         {
             MeetingPlayerPanel panel = Instantiate(PlayerPanelPref, GridLayout_Players.transform).GetComponent<MeetingPlayerPanel>();
             panel.SetVoter(player);
             meetingPlayerPanels.Add(panel);
         }
     }
-    //[Server]
+
+    [Server]
     GamePlayer GetEjectedPlayer()
     {
         int votedHigh = 0;
@@ -37,7 +42,7 @@ public class MeetingUI : MonoBehaviour
         return ejectedPlayer;
     }
 
-    //[Server]
+    [ClientRpc]
     void BanPlayer(GamePlayer ejectedPlayer)
     {
         ejectedPlayer.RpcOnKilled();
