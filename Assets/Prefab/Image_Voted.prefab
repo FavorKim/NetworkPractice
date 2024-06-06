@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 300204013336091536}
   - component: {fileID: 300204013336091550}
   - component: {fileID: 300204013336091551}
+  - component: {fileID: 7376811938617741583}
   m_Layer: 5
   m_Name: Image_Voted
   m_TagString: Untagged
@@ -76,3 +77,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7376811938617741583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300204013336091537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1249543641
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0

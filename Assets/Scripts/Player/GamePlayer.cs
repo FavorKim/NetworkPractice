@@ -18,7 +18,7 @@ public class GamePlayer : NetworkBehaviour
     [SerializeField] LayerMask LayerMask_Player;
     [SerializeField] LayerMask LayerMask_Body;
     [SerializeField] public bool _IsDead { get; set; }
-    [SerializeField, SyncVar(hook = nameof(SetVotedNum_Hook))] int _votedNumber;
+    [SerializeField, SyncVar(hook = nameof(SetVotedNum_Hook))] int _votedNumber =0;
 
     Vector3 _moveDir;
     Vector2 _dir;
@@ -46,6 +46,11 @@ public class GamePlayer : NetworkBehaviour
         MovePlayer();
     }
 
+    private void Start()
+    {
+        GameManager.gamePlayers.Add(this);
+    }
+
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
@@ -54,11 +59,6 @@ public class GamePlayer : NetworkBehaviour
         cam.transform.localPosition = Vector3.zero;
         Cmd_SetName(PlayerInfo.Instance.GetName());
         Cmd_SetColor(PlayerInfo.Instance.GetColor());
-    }
-
-    public override void OnStartServer()
-    {
-        GameManager.gamePlayers.Add(this);
     }
 
 
@@ -86,6 +86,7 @@ public class GamePlayer : NetworkBehaviour
         return dest;
     }
 
+    //[Command]
     void RayCastBody()
     {
         if(Physics.Raycast(Gameobject_PlayerHead.transform.position, Gameobject_PlayerHead.transform.forward, 4.0f, LayerMask_Body))
@@ -109,9 +110,7 @@ public class GamePlayer : NetworkBehaviour
     [ClientRpc]
     public void RpcOnKilled()
     {
-        Debug.Log(netId+"is Killed");
         _IsDead = true;
-        //gameObject.SetActive(false);
     }
     [ClientRpc]
     void Rpc_SetBodyColor(GameObject body, GamePlayer killed)

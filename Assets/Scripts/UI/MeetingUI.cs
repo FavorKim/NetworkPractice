@@ -2,6 +2,7 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,20 +13,19 @@ public class MeetingUI : NetworkBehaviour
     List<MeetingPlayerPanel> meetingPlayerPanels = new List<MeetingPlayerPanel>();
 
 
-    
 
-    [Command(requiresAuthority = false), ClientRpc]
-    public void CmdRpc_OnOpenMeeting()
+    public void OnOpenMeeting()
     {
         foreach (GamePlayer player in GameManager.gamePlayers)
         {
             MeetingPlayerPanel panel = Instantiate(PlayerPanelPref, GridLayout_Players.transform).GetComponent<MeetingPlayerPanel>();
-            panel.SetVoter(player);
+            panel.Rpc_SetVoter(player);
             meetingPlayerPanels.Add(panel);
         }
     }
 
-    [Server]
+    
+    //[Server]
     GamePlayer GetEjectedPlayer()
     {
         int votedHigh = 0;
@@ -42,22 +42,26 @@ public class MeetingUI : NetworkBehaviour
         return ejectedPlayer;
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     void BanPlayer(GamePlayer ejectedPlayer)
     {
         ejectedPlayer.RpcOnKilled();
         Debug.Log(ejectedPlayer.GetName() + "is Ejected");
     }
 
-    //[Server]
-    public void OnEndMeeting()
+    //[Command(requiresAuthority = false)]
+    public void Cmd_OnEndMeeting()
     {
-        foreach(MeetingPlayerPanel panel in meetingPlayerPanels)
+        Rpc_OnEndMeeting();
+    }
+    //[ClientRpc]
+    void Rpc_OnEndMeeting()
+    {
+        foreach (MeetingPlayerPanel panel in meetingPlayerPanels)
         {
             panel.OnMeetingEnd();
         }
         StartCoroutine(CorBan());
-        
     }
 
     IEnumerator CorBan()
@@ -71,9 +75,9 @@ public class MeetingUI : NetworkBehaviour
         meetingPlayerPanels.Clear();
     }
 
-
+    //[Server]
     public void OnValueChanged_TimeBar(Single val)
     {
-        if (val == 0) OnEndMeeting();
+        if (val == 0) Cmd_OnEndMeeting();
     }
 }

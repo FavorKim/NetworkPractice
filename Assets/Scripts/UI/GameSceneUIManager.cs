@@ -9,9 +9,15 @@ public class GameSceneUIManager : SingletonNetworkBehaviour<GameSceneUIManager>
     [SerializeField] DOTweenAnimation DeadBodyReport;
 
 
-    [Command(requiresAuthority = false),ClientRpc]
+    [Command(requiresAuthority = false)]
     public void CmdRpc_Report()
     {
+        Rpc_Report();
+    }
+    [ClientRpc]
+    void Rpc_Report()
+    {
         DeadBodyReport.DOPlay();
+
     }
 }
