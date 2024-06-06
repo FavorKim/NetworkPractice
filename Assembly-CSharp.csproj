@@ -59,24 +59,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\UI\LoginPanel.cs" />
+    <Compile Include="Assets\Scripts\Util\SingletonMonoBehaviour.cs" />
     <Compile Include="Assets\ZerinLabs_lowpolyPack_SciFi\ScriptsEditor\scrEdit_objectSnap.cs" />
     <Compile Include="Assets\Scripts\Manager\VoteManager.cs" />
     <Compile Include="Assets\Scripts\Player\RoomPlayer.cs" />
+    <Compile Include="Assets\Scripts\UI\MeetingUI.cs" />
     <Compile Include="Assets\Scripts\Player\GamePlayer.cs" />
+    <Compile Include="Assets\Scripts\UI\ImposterSetUI.cs" />
     <Compile Include="Assets\ZerinLabs_lowpolyPack_SciFi\ScriptsEditor\scrEdit_objectGridRepositioneer.cs" />
     <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
     <Compile Include="Assets\Scripts\Manager\LobbyManager.cs" />
-    <Compile Include="Assets\Scripts\UI\RoomUI.cs" />
-    <Compile Include="Assets\Scripts\Manager\RoomManager.cs" />
-    <Compile Include="Assets\Scripts\UI\MeetingPlayerPanel.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerColor.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerInfo.cs" />
-    <Compile Include="Assets\Scripts\Util\Billboard.cs" />
-    <Compile Include="Assets\Scripts\UI\GameSceneUIManager.cs" />
     <Compile Include="Assets\Scripts\Util\SingletonNetworkBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Util\SingletonMonoBehaviour.cs" />
-    <Compile Include="Assets\Scripts\UI\ImposterSetUI.cs" />
-    <Compile Include="Assets\Scripts\UI\MeetingUI.cs" />
+    <Compile Include="Assets\Scripts\UI\RoomUI.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerColor.cs" />
+    <Compile Include="Assets\Scripts\Manager\RoomManager.cs" />
+    <Compile Include="Assets\Scripts\Util\Billboard.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerInfo.cs" />
+    <Compile Include="Assets\Scripts\UI\GameSceneUIManager.cs" />
+    <Compile Include="Assets\Scripts\UI\Slider_Time.cs" />
+    <Compile Include="Assets\Scripts\UI\MeetingPlayerPanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />
@@ -449,6 +450,10 @@
       <HintPath>Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.Pdb.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DemiLib">
+      <HintPath>Assets\Plugins\Demigiant\DemiLib\Core\DemiLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>Assets\Plugins\MySql.Data.dll</HintPath>
       <Private>False</Private>
@@ -465,6 +470,10 @@
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.9.1\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.2.1\Runtime\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
@@ -473,16 +482,8 @@
       <HintPath>Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.Mdb.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DOTween">
-      <HintPath>Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="DOTweenPro">
       <HintPath>Assets\Plugins\Demigiant\DOTweenPro\DOTweenPro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DemiLib">
-      <HintPath>Assets\Plugins\Demigiant\DemiLib\Core\DemiLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Android.Types">

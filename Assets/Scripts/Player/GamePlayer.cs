@@ -15,6 +15,8 @@ public class GamePlayer : NetworkBehaviour
     [SerializeField] bool _isImposter;
     [SerializeField] bool _canKill;
     [SerializeField] LayerMask LayerMask_Player;
+    [SerializeField] public bool _IsDead { get; set; }
+    [SerializeField, SyncVar(hook = nameof(SetVotedNum_Hook))] int _votedNumber;
 
     Vector3 _moveDir;
     Vector2 _dir;
@@ -28,8 +30,9 @@ public class GamePlayer : NetworkBehaviour
     MeshRenderer _renderer;
 
     public bool GetIsImposter() { return _isImposter; }
-
-
+    public string GetName() { return _playerName; }
+    public Color GetPlayerColor() { return _playerColor;}
+    public int GetVotedNum() {  return _votedNumber; }
 
     private void Awake()
     {
@@ -96,6 +99,7 @@ public class GamePlayer : NetworkBehaviour
     public void RpcOnKilled()
     {
         Debug.Log(netId+"is Killed");
+        _IsDead = true;
         gameObject.SetActive(false);
     }
     
@@ -153,6 +157,19 @@ public class GamePlayer : NetworkBehaviour
         if(_renderer == null) _renderer = GetComponent<MeshRenderer>();
         _renderer.material.color = recent;
     }
+    void SetVotedNum_Hook(int old, int recent)
+    {
+        _votedNumber = recent;
+    }
+    public void Voted()
+    {
+        _votedNumber++;
+    }
+    public void ResetVote()
+    {
+        _votedNumber = 0;
+    }
+
     //private void OnTriggerStay(Collider other)
     //{
     //    if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.Space))
