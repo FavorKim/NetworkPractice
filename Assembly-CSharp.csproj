@@ -71,7 +71,11 @@
     <Compile Include="Assets\Scripts\UI\MeetingPlayerPanel.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerColor.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInfo.cs" />
-    <Compile Include="Assets\Scripts\UI\Billboard.cs" />
+    <Compile Include="Assets\Scripts\Util\Billboard.cs" />
+    <Compile Include="Assets\Scripts\UI\GameSceneUIManager.cs" />
+    <Compile Include="Assets\Scripts\Util\SingletonNetworkBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Util\SingletonMonoBehaviour.cs" />
+    <Compile Include="Assets\Scripts\UI\ImposterSetUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />
@@ -466,6 +470,18 @@
     </Reference>
     <Reference Include="Mono.CecilX.Mdb">
       <HintPath>Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.Mdb.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DOTweenPro">
+      <HintPath>Assets\Plugins\Demigiant\DOTweenPro\DOTweenPro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DemiLib">
+      <HintPath>Assets\Plugins\Demigiant\DemiLib\Core\DemiLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Android.Types">
@@ -1222,6 +1238,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{460D8BBD-444A-E713-A97B-ED166D8BEFE7}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="kcp2k.csproj">
       <Project>{8D98E9A3-F752-9D7E-0844-D4C31812B28F}</Project>
       <Name>kcp2k</Name>

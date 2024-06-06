@@ -7,6 +7,7 @@ public class PlayerInfo : NetworkBehaviour
 {
     [SyncVar(hook = nameof(SetColor_Hook)),SerializeField] Color playerColor;
     [SyncVar(hook = nameof(SetName_Hook)),SerializeField] string playerName;
+    [SyncVar(hook = nameof(SetImposter_Hook)),SerializeField] bool isImposter;
 
     private static PlayerInfo instance;
     public static PlayerInfo Instance 
@@ -45,9 +46,11 @@ public class PlayerInfo : NetworkBehaviour
 
     public string GetName() {  return playerName; }
     public Color GetColor() { return playerColor; }
+    public bool GetImposter() {  return isImposter; }
 
     public void SetColor(Color color) { playerColor = color; }
     public void SetName(string name) {  playerName = name; }
+    public void SetImposter(bool val) {  isImposter = val; }
 
     void SetColor_Hook(Color old, Color recent)
     {
@@ -56,5 +59,9 @@ public class PlayerInfo : NetworkBehaviour
     void SetName_Hook(string old, string recent)
     {
         playerName = recent;
+    }
+    void SetImposter_Hook(bool old, bool recent)
+    {
+        isImposter = recent;
     }
 }

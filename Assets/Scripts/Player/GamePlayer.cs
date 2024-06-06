@@ -88,6 +88,7 @@ public class GamePlayer : NetworkBehaviour
     public void RpcSetImposter(bool isImposter)
     {
         this._isImposter = isImposter;
+        if (isLocalPlayer) PlayerInfo.Instance.SetImposter(isImposter);
     }
 
     [ClientRpc]
