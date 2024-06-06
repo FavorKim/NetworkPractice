@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\UI\MeetingPlayerPanel.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerColor.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInfo.cs" />
+    <Compile Include="Assets\Scripts\UI\Billboard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />
