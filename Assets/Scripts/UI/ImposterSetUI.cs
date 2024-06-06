@@ -6,11 +6,17 @@ using UnityEngine;
 
 public class ImposterSetUI : MonoBehaviour
 {
-    [SerializeField] TMP_Text Text_Imposter;
-    [SerializeField] TMP_Text Text_Crew;
+    [SerializeField] DOTweenAnimation Text_Imposter;
+    [SerializeField] DOTweenAnimation Text_Crew;
 
     public void OnComplete_YouAre()
     {
+        StartCoroutine(CorShhh());
+    }
+
+    IEnumerator CorShhh()
+    {
+        yield return new WaitForSeconds(1);
         if (PlayerInfo.Instance.GetImposter())
         {
             Text_Imposter.DOPlay();
