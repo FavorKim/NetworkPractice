@@ -5,6 +5,7 @@ using MySql;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Collections.Generic;
+using Mirror;
 
 public class LoginPanel : MonoBehaviour
 {
@@ -188,7 +189,8 @@ public class LoginPanel : MonoBehaviour
         GameObject_MainMenu.SetActive(true);
         transform.root.gameObject.SetActive(false);
         WriteResultTxt("Login Success");
-        //GameManager.Instance.InitUserID(Input_ID.text);
+        var man = NetworkManager.singleton as RoomManager;
+        man.localPlayerName = Input_ID.text;
     }
     
 }

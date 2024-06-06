@@ -5,4 +5,7 @@ using UnityEngine;
 
 public class RoomManager : NetworkRoomManager
 {
+
+    public string localPlayerName;
+
 }
