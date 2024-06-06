@@ -16,6 +16,6 @@ public class MeetingPlayerPanel : MonoBehaviour
     public void SetVoter(string playername, Color color)
     {
         Text_Playername.text = playername;
-        Img_PlayerColor.color = color;
+        Img_PlayerColor.material.SetColor("_PlayerColor", color);
     }
 }

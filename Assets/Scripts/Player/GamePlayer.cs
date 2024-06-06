@@ -19,6 +19,9 @@ public class GamePlayer : NetworkBehaviour
     Vector3 _moveDir;
     Vector2 _dir;
 
+
+
+
     [SyncVar, SerializeField] private float _moveSpeed;
     [SerializeField] private float _rotateSpeed;
 
@@ -91,17 +94,17 @@ public class GamePlayer : NetworkBehaviour
     public void RpcOnKilled()
     {
         Debug.Log(netId+"is Killed");
-        //gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
     
+
     #endregion
 
     #region Command
     [Command]
-    public void KillCommand()
+    public void KillCommand(GamePlayer target)
     {
-        Debug.Log("kill : " + name);
-        RpcOnKilled();
+        target.RpcOnKilled();
     }
     [Command]
     public void Cmd_SetName(string name)
@@ -133,7 +136,7 @@ public class GamePlayer : NetworkBehaviour
     {
         if (_isImposter)
         {
-            RaycastGetPlayer().KillCommand();
+            KillCommand(RaycastGetPlayer());
         }
     }
     
