@@ -18,7 +18,8 @@ public class GamePlayer : NetworkBehaviour
     [SerializeField] LayerMask LayerMask_Player;
     [SerializeField] LayerMask LayerMask_Body;
     [SerializeField] public bool _IsDead { get; set; }
-    [SerializeField, SyncVar(hook = nameof(SetVotedNum_Hook))] int _votedNumber =0;
+    [SerializeField, SyncVar(hook = nameof(SetVotedNum_Hook))] int _votedNumber = 0;
+    [SerializeField, SyncVar(hook = nameof(SetIsVoted_Hook))] private bool _isVoted;
 
     Vector3 _moveDir;
     Vector2 _dir;
@@ -33,14 +34,15 @@ public class GamePlayer : NetworkBehaviour
 
     public bool GetIsImposter() { return _isImposter; }
     public string GetName() { return _playerName; }
-    public Color GetPlayerColor() { return _playerColor;}
-    public int GetVotedNum() {  return _votedNumber; }
+    public Color GetPlayerColor() { return _playerColor; }
+    public int GetVotedNum() { return _votedNumber; }
+    public bool GetIsVoted() { return _isVoted; }
 
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
     }
-    
+
     private void FixedUpdate()
     {
         MovePlayer();
@@ -77,10 +79,10 @@ public class GamePlayer : NetworkBehaviour
         RaycastHit[] hit = null;
         GamePlayer dest = null;
         hit = Physics.RaycastAll(Gameobject_PlayerHead.transform.position, Gameobject_PlayerHead.transform.forward, 3.0f, LayerMask_Player);
-        foreach(var r in hit)
+        foreach (var r in hit)
         {
             if (r.collider == this) continue;
-            dest =  r.collider.GetComponent<GamePlayer>();
+            dest = r.collider.GetComponent<GamePlayer>();
         }
 
         return dest;
@@ -89,7 +91,7 @@ public class GamePlayer : NetworkBehaviour
     //[Command]
     void RayCastBody()
     {
-        if(Physics.Raycast(Gameobject_PlayerHead.transform.position, Gameobject_PlayerHead.transform.forward, 4.0f, LayerMask_Body))
+        if (Physics.Raycast(Gameobject_PlayerHead.transform.position, Gameobject_PlayerHead.transform.forward, 4.0f, LayerMask_Body))
         {
             GameSceneUIManager.Instance.CmdRpc_Report();
         }
@@ -121,7 +123,7 @@ public class GamePlayer : NetworkBehaviour
     #endregion
 
     #region Command
-    [Command(requiresAuthority =false)]
+    [Command(requiresAuthority = false)]
     public void KillCommand()
     {
         var body = Instantiate(Prefab_DeadBody, transform.position, Prefab_DeadBody.transform.rotation);
@@ -139,6 +141,8 @@ public class GamePlayer : NetworkBehaviour
     {
         _playerColor = color;
     }
+
+
     #endregion
 
     #region Events
@@ -166,7 +170,7 @@ public class GamePlayer : NetworkBehaviour
     {
         RayCastBody();
     }
-    
+
     #endregion
 
     void SetName_Hook(string old, string recent)
@@ -175,16 +179,22 @@ public class GamePlayer : NetworkBehaviour
     }
     void SetColor_Hook(Color old, Color recent)
     {
-        if(_renderer == null) _renderer = GetComponent<MeshRenderer>();
+        if (_renderer == null) _renderer = GetComponent<MeshRenderer>();
         _renderer.material.color = recent;
     }
     void SetVotedNum_Hook(int old, int recent)
     {
         _votedNumber = recent;
     }
+    void SetIsVoted_Hook(bool old, bool recent)
+    {
+        _isVoted = recent;
+    }
+
     public void Voted()
     {
         _votedNumber++;
+        _isVoted = true;
     }
     public void ResetVote()
     {

@@ -78,6 +78,8 @@
     <Compile Include="Assets\Scripts\UI\GameSceneUIManager.cs" />
     <Compile Include="Assets\Scripts\UI\Slider_Time.cs" />
     <Compile Include="Assets\Scripts\UI\MeetingPlayerPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\ChattingUI.cs" />
+    <Compile Include="Assets\Scripts\UI\MeetingTextBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />

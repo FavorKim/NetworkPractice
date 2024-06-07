@@ -21,7 +21,9 @@ public class MeetingUI : NetworkBehaviour
             MeetingPlayerPanel panel = Instantiate(PlayerPanelPref, GridLayout_Players.transform).GetComponent<MeetingPlayerPanel>();
             panel.Rpc_SetVoter(player);
             meetingPlayerPanels.Add(panel);
+            if(player.isLocalPlayer) PlayerInfo.Instance.localPanel = panel;
         }
+        
     }
 
     
@@ -73,6 +75,7 @@ public class MeetingUI : NetworkBehaviour
             Destroy(panel.gameObject);
         }
         meetingPlayerPanels.Clear();
+        this.gameObject.SetActive(false);
     }
 
     //[Server]

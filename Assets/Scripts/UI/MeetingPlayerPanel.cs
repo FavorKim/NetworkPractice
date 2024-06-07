@@ -43,15 +43,18 @@ public class MeetingPlayerPanel : NetworkBehaviour
     //[Command(requiresAuthority = false)]
     public void OnClick_Panel()
     {
+        if (PlayerInfo.Instance.GetIsVoted()) return;
         player.Voted();
+        PlayerInfo.Instance.SetIsVoted(true);
     }
 
-    [Command(requiresAuthority = false)]
+
+    //[Command(requiresAuthority = false)]
     public void OnMeetingEnd()
     {
         Rpc_OnMeetingEnd();
     }
-    [ClientRpc]
+    //[ClientRpc]
     void Rpc_OnMeetingEnd()
     {
         for (int i = 0; i < player.GetVotedNum(); i++)
