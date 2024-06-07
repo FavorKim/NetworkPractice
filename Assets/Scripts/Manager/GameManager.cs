@@ -94,6 +94,13 @@ public class GameManager : NetworkBehaviour
             gameOverUI.SetGameResult(true);
         else if (imposterCount == 0)
             gameOverUI.SetGameResult(false);
+    }
+
+    public void BackToRoom()
+    {
+        foreach (var conn in NetworkServer.connections.Values)
+        {
             
+        }
     }
 }

@@ -15768,7 +15768,7 @@ MonoBehaviour:
   targetGO: {fileID: 0}
   tweenTargetIsTargetGO: 1
   delay: 0
-  duration: 1
+  duration: 3
   easeType: 37
   easeCurve:
     serializedVersion: 2
@@ -15783,8 +15783,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.14321971
     - serializedVersion: 3
-      time: 0.40402222
-      value: 1
+      time: 0.20718384
+      value: 1.0023651
       inSlope: 3.5541809
       outSlope: 3.5541809
       tangentMode: 0
@@ -15810,8 +15810,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.66666675
     - serializedVersion: 3
-      time: 1.3955845
-      value: 0.010193504
+      time: 1.2052158
+      value: 0.012543358
       inSlope: -1.0767179
       outSlope: -1.0767179
       tangentMode: 0
@@ -15831,7 +15831,7 @@ MonoBehaviour:
   autoGenerate: 1
   isActive: 1
   isValid: 1
-  target: {fileID: 1203534163}
+  target: {fileID: 569415130}
   animationType: 7
   targetType: 3
   forcedTargetType: 0
@@ -39500,7 +39500,7 @@ MonoBehaviour:
   targetGO: {fileID: 0}
   tweenTargetIsTargetGO: 1
   delay: 0
-  duration: 1
+  duration: 4
   easeType: 37
   easeCurve:
     serializedVersion: 2
