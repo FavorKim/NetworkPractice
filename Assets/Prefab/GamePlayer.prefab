@@ -451,7 +451,11 @@ MonoBehaviour:
   LayerMask_Body:
     serializedVersion: 2
     m_Bits: 128
+  isDead: 0
   _votedNumber: 0
+  _isVoted: 0
+  int_KillCoolTime: 20
+  _curKillCoolTime: 20
   _moveSpeed: 200
   _rotateSpeed: 10
 --- !u!114 &8341548259392892073

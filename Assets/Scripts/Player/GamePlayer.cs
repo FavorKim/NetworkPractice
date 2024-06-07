@@ -13,7 +13,7 @@ public class GamePlayer : NetworkBehaviour
     [SerializeField] GameObject Gameobject_PlayerHead;
     [SerializeField] GameObject Prefab_DeadBody;
     [SerializeField] TMP_Text Text_PlayerName;
-    [SerializeField] KillBtn KillBtn;
+    KillBtn KillBtn;
 
     [SerializeField] bool _isImposter;
     [SerializeField, SyncVar] bool _canKill;
@@ -22,7 +22,8 @@ public class GamePlayer : NetworkBehaviour
     [SerializeField, SyncVar(hook = nameof(SetCanCill_Hook))] bool isDead = false;
     [SerializeField, SyncVar(hook = nameof(SetVotedNum_Hook))] int _votedNumber = 0;
     [SerializeField, SyncVar(hook = nameof(SetIsVoted_Hook))] private bool _isVoted;
-    [SerializeField] float _killCoolTime;
+    [SerializeField] int int_KillCoolTime;
+    [SerializeField]int _curKillCoolTime;
 
     Vector3 _moveDir;
     Vector2 _dir;
@@ -41,6 +42,8 @@ public class GamePlayer : NetworkBehaviour
     public int GetVotedNum() { return _votedNumber; }
     public bool GetIsVoted() { return _isVoted; }
     public bool GetIsDead() { return isDead; }
+    public int GetKillCoolTime() {  return int_KillCoolTime; }
+    public int GetCurKillCoolTime() {  return _curKillCoolTime; }
 
     public void SetIsDead(bool val) { isDead = val; }
 
@@ -67,6 +70,9 @@ public class GamePlayer : NetworkBehaviour
         cam.transform.localPosition = Vector3.zero;
         Cmd_SetName(PlayerInfo.Instance.GetName());
         Cmd_SetColor(PlayerInfo.Instance.GetColor());
+        KillBtn = FindAnyObjectByType<KillBtn>();
+        //KillBtn.gameObject.SetActive(false);
+        
     }
 
 
@@ -112,7 +118,14 @@ public class GamePlayer : NetworkBehaviour
     public void RpcSetImposter(bool isImposter)
     {
         this._isImposter = isImposter;
-        if (isLocalPlayer) PlayerInfo.Instance.SetImposter(isImposter);
+        if (isLocalPlayer) 
+        {
+            PlayerInfo.Instance.SetImposter(isImposter); 
+            KillBtn.gameObject.SetActive(true);
+            KillBtn.InitPlayer(this);
+            if (isImposter) StartCoroutine(CorKillCooltime());
+        }
+
         //Button_Kill.interactable = true;
     }
 
@@ -127,6 +140,12 @@ public class GamePlayer : NetworkBehaviour
         body.GetComponent<MeshRenderer>().material.color = killed._playerColor;
     }
 
+    [ClientRpc]
+    void Rpc_StartKillCool()
+    {
+        StartCoroutine(CorKillCooltime());
+    }
+
     #endregion
 
     #region Command
@@ -139,7 +158,7 @@ public class GamePlayer : NetworkBehaviour
 
         Rpc_SetBodyColor(body, this);
         RpcOnKilled();
-        StartCoroutine(CorKillCooltime());
+        Rpc_StartKillCool();
     }
     [Command(requiresAuthority = false)]
     public void Cmd_SetName(string name)
@@ -152,6 +171,11 @@ public class GamePlayer : NetworkBehaviour
         _playerColor = color;
     }
 
+    [Command(requiresAuthority = false)]
+    void Cmd_StartKillCoolTime()
+    {
+        Rpc_StartKillCool();
+    }
 
     #endregion
 
@@ -181,6 +205,7 @@ public class GamePlayer : NetworkBehaviour
         RayCastBody();
     }
 
+    public event Action OnCoolTimeReduced;
     #endregion
 
     void SetName_Hook(string old, string recent)
@@ -233,7 +258,13 @@ public class GamePlayer : NetworkBehaviour
     IEnumerator CorKillCooltime()
     {
         _canKill = false;
-        yield return new WaitForSeconds(_killCoolTime);
+        _curKillCoolTime = int_KillCoolTime;
+        while (_curKillCoolTime>0)
+        {
+            yield return new WaitForSeconds(1);
+            _curKillCoolTime--;
+            OnCoolTimeReduced();
+        }
         _canKill = true;
     }
 }

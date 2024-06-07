@@ -16,7 +16,7 @@ public class ImposterSetUI : MonoBehaviour
 
     IEnumerator CorShhh()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         if (PlayerInfo.Instance.GetImposter())
         {
             Text_Imposter.DOPlay();
