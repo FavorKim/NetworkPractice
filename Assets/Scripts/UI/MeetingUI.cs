@@ -44,16 +44,16 @@ public class MeetingUI : NetworkBehaviour
         return ejectedPlayer.gameObject;
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     void Rpc_BanPlayer(GameObject ejectedPlayer)
     {
         Debug.Log(ejectedPlayer.GetComponent<GamePlayer>().GetName() + "is Ejected");
+        ejectedPlayer.GetComponent<GamePlayer>().RpcOnKilled();
     }
 
-    [Command(requiresAuthority =false)]
+    //[Command(requiresAuthority =false)]
     void Cmd_BanPlayer(GameObject ejectedPlayer)
     {
-        ejectedPlayer.GetComponent<GamePlayer>().RpcOnKilled();
         Rpc_BanPlayer(ejectedPlayer);
     }
 

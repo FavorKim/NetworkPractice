@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\UI\MeetingPlayerPanel.cs" />
     <Compile Include="Assets\Scripts\UI\ChattingUI.cs" />
     <Compile Include="Assets\Scripts\UI\MeetingTextBox.cs" />
+    <Compile Include="Assets\Scripts\UI\DeadBornReport.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />

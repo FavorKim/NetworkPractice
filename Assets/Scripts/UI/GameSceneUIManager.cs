@@ -6,18 +6,18 @@ using UnityEngine;
 
 public class GameSceneUIManager : SingletonNetworkBehaviour<GameSceneUIManager>
 {
-    [SerializeField] DOTweenAnimation DeadBodyReport;
+    [SerializeField] DeadBornReport DeadBornReport;
 
 
     [Command(requiresAuthority = false)]
-    public void CmdRpc_Report()
+    public void CmdRpc_Report(GameObject body)
     {
-        Rpc_Report();
+        Rpc_Report(body);
     }
     [ClientRpc]
-    void Rpc_Report()
+    void Rpc_Report(GameObject body)
     {
-        DeadBodyReport.DOPlay();
-
+        DeadBornReport.gameObject.SetActive(true);
+        DeadBornReport.SetBodyColor(body);
     }
 }

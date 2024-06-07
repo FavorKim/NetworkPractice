@@ -88,12 +88,12 @@ public class GamePlayer : NetworkBehaviour
         return dest;
     }
 
-    //[Command]
     void RayCastBody()
     {
-        if (Physics.Raycast(Gameobject_PlayerHead.transform.position, Gameobject_PlayerHead.transform.forward, 4.0f, LayerMask_Body))
+        RaycastHit body;
+        if (Physics.Raycast(Gameobject_PlayerHead.transform.position, Gameobject_PlayerHead.transform.forward,out body, 4.0f, LayerMask_Body))
         {
-            GameSceneUIManager.Instance.CmdRpc_Report();
+            GameSceneUIManager.Instance.CmdRpc_Report(body.collider.gameObject);
         }
     }
 
