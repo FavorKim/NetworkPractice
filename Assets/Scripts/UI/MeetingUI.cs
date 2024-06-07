@@ -44,19 +44,29 @@ public class MeetingUI : NetworkBehaviour
         return ejectedPlayer;
     }
 
-    //[ClientRpc]
-    void BanPlayer(GamePlayer ejectedPlayer)
+    [ClientRpc]
+    void Rpc_BanPlayer(GamePlayer ejectedPlayer)
     {
-        ejectedPlayer.RpcOnKilled();
         Debug.Log(ejectedPlayer.GetName() + "is Ejected");
     }
 
-    //[Command(requiresAuthority = false)]
-    public void Cmd_OnEndMeeting()
+    [Command(requiresAuthority =false)]
+    void Cmd_BanPlayer(GamePlayer ejectedPlayer)
+    {
+        ejectedPlayer.RpcOnKilled();
+        Rpc_BanPlayer(ejectedPlayer);
+    }
+
+    
+
+    [Command(requiresAuthority =false)]
+    void Cmd_OnEndMeeting()
     {
         Rpc_OnEndMeeting();
+        GameManager.Instance.Cmd_BodyClean();
     }
-    //[ClientRpc]
+
+    [ClientRpc]
     void Rpc_OnEndMeeting()
     {
         foreach (MeetingPlayerPanel panel in meetingPlayerPanels)
@@ -69,13 +79,19 @@ public class MeetingUI : NetworkBehaviour
     IEnumerator CorBan()
     {
         yield return new WaitForSeconds(3.0f);
-        BanPlayer(GetEjectedPlayer());
-        foreach(MeetingPlayerPanel panel in meetingPlayerPanels)
+        Cmd_BanPlayer(GetEjectedPlayer());
+        ResetPanels();
+        meetingPlayerPanels.Clear();
+        this.gameObject.SetActive(false);
+    }
+
+    void ResetPanels()
+    {
+        foreach (MeetingPlayerPanel panel in meetingPlayerPanels)
         {
             Destroy(panel.gameObject);
         }
-        meetingPlayerPanels.Clear();
-        this.gameObject.SetActive(false);
+        
     }
 
     //[Server]

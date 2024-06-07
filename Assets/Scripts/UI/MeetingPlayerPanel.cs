@@ -52,7 +52,10 @@ public class MeetingPlayerPanel : NetworkBehaviour
     //[Command(requiresAuthority = false)]
     public void OnMeetingEnd()
     {
-        Rpc_OnMeetingEnd();
+        for (int i = 0; i < player.GetVotedNum(); i++)
+        {
+            var votedObj = Instantiate(VotedPref, Group_Voted.transform);
+        }
     }
     //[ClientRpc]
     void Rpc_OnMeetingEnd()

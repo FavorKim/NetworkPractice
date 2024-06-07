@@ -59,4 +59,14 @@ public class GameManager : NetworkBehaviour
     {
         gamePlayers.Clear();
     }
+
+    [Command(requiresAuthority = false)]
+    public void Cmd_BodyClean()
+    {
+        var bodies = GameObject.FindGameObjectsWithTag("DeadBody");
+        foreach (var item in bodies)
+        {
+            NetworkServer.UnSpawn(item);
+        }
+    }
 }

@@ -191,6 +191,7 @@ public class GamePlayer : NetworkBehaviour
         _isVoted = recent;
     }
 
+    [Command(requiresAuthority =false)]
     public void Voted()
     {
         _votedNumber++;
