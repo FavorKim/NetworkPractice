@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class GamePlayer : NetworkBehaviour
 {
@@ -12,14 +13,16 @@ public class GamePlayer : NetworkBehaviour
     [SerializeField] GameObject Gameobject_PlayerHead;
     [SerializeField] GameObject Prefab_DeadBody;
     [SerializeField] TMP_Text Text_PlayerName;
+    [SerializeField] KillBtn KillBtn;
 
     [SerializeField] bool _isImposter;
-    [SerializeField] bool _canKill;
+    [SerializeField, SyncVar] bool _canKill;
     [SerializeField] LayerMask LayerMask_Player;
     [SerializeField] LayerMask LayerMask_Body;
-    [SerializeField, SyncVar] bool isDead = false;
+    [SerializeField, SyncVar(hook = nameof(SetCanCill_Hook))] bool isDead = false;
     [SerializeField, SyncVar(hook = nameof(SetVotedNum_Hook))] int _votedNumber = 0;
     [SerializeField, SyncVar(hook = nameof(SetIsVoted_Hook))] private bool _isVoted;
+    [SerializeField] float _killCoolTime;
 
     Vector3 _moveDir;
     Vector2 _dir;
@@ -110,6 +113,7 @@ public class GamePlayer : NetworkBehaviour
     {
         this._isImposter = isImposter;
         if (isLocalPlayer) PlayerInfo.Instance.SetImposter(isImposter);
+        //Button_Kill.interactable = true;
     }
 
     [ClientRpc]
@@ -132,8 +136,10 @@ public class GamePlayer : NetworkBehaviour
         GameManager.Instance.IsImposterWin();
         var body = Instantiate(Prefab_DeadBody, transform.position, Prefab_DeadBody.transform.rotation);
         NetworkServer.Spawn(body);
+
         Rpc_SetBodyColor(body, this);
         RpcOnKilled();
+        StartCoroutine(CorKillCooltime());
     }
     [Command(requiresAuthority = false)]
     public void Cmd_SetName(string name)
@@ -165,7 +171,7 @@ public class GamePlayer : NetworkBehaviour
     }
     public void OnKill(InputValue val)
     {
-        if (_isImposter)
+        if (_isImposter && _canKill)
         {
             RaycastGetPlayer().KillCommand();
         }
@@ -199,6 +205,11 @@ public class GamePlayer : NetworkBehaviour
         isDead = recent;
         PlayerInfo.Instance.SetIsDead(isDead);
     }
+    void SetCanCill_Hook(bool old, bool recent)
+    {
+        _canKill = recent;
+    }
+
 
     [Command(requiresAuthority =false)]
     public void Voted()
@@ -218,5 +229,12 @@ public class GamePlayer : NetworkBehaviour
     //        other.transform.root.GetComponent<GamePlayer>()?.KillCommand();
     //    }
     //}
+
+    IEnumerator CorKillCooltime()
+    {
+        _canKill = false;
+        yield return new WaitForSeconds(_killCoolTime);
+        _canKill = true;
+    }
 }
 
