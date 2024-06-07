@@ -31,13 +31,14 @@ public class MeetingUI : NetworkBehaviour
     //[Server]
     GameObject GetEjectedPlayer()
     {
-        int votedHigh = 0;
+        int votedHigh = GameManager.Instance.GetAlives().Count / 2;
         GamePlayer ejectedPlayer = null;
-        foreach(GamePlayer player in GameManager.gamePlayers)
+        foreach(GamePlayer player in GameManager.Instance.GetAlives())
         {
-            if (player.GetIsDead()) continue;
-            if(player.GetVotedNum() > votedHigh)
+            if(player.GetVotedNum() >= votedHigh)
             {
+                if (player.GetVotedNum() == votedHigh) { ejectedPlayer = default; continue; }
+
                 votedHigh = player.GetVotedNum();
                 ejectedPlayer = player;
             }
@@ -84,6 +85,7 @@ public class MeetingUI : NetworkBehaviour
         //yield return new WaitForSeconds(3.0f);
         Cmd_BanPlayer(GetEjectedPlayer());
         ResetPanels();
+        GameManager.Instance.IsImposterWin();
     }
 
     void ResetPanels()
@@ -95,6 +97,10 @@ public class MeetingUI : NetworkBehaviour
         meetingPlayerPanels.Clear();
         this.gameObject.SetActive(false);
     }
+
+
+    
+
 
     //[Command(requiresAuthority =false)]
     public void OnValueChanged_TimeBar(Single val)

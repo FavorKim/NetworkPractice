@@ -129,6 +129,7 @@ public class GamePlayer : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void KillCommand()
     {
+        GameManager.Instance.IsImposterWin();
         var body = Instantiate(Prefab_DeadBody, transform.position, Prefab_DeadBody.transform.rotation);
         NetworkServer.Spawn(body);
         Rpc_SetBodyColor(body, this);
