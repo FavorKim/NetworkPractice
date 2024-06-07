@@ -17,7 +17,7 @@ public class GamePlayer : NetworkBehaviour
     [SerializeField] bool _canKill;
     [SerializeField] LayerMask LayerMask_Player;
     [SerializeField] LayerMask LayerMask_Body;
-    [SerializeField] public bool _IsDead { get; set; }
+    [SerializeField, SyncVar] bool isDead = false;
     [SerializeField, SyncVar(hook = nameof(SetVotedNum_Hook))] int _votedNumber = 0;
     [SerializeField, SyncVar(hook = nameof(SetIsVoted_Hook))] private bool _isVoted;
 
@@ -37,6 +37,9 @@ public class GamePlayer : NetworkBehaviour
     public Color GetPlayerColor() { return _playerColor; }
     public int GetVotedNum() { return _votedNumber; }
     public bool GetIsVoted() { return _isVoted; }
+    public bool GetIsDead() { return isDead; }
+
+    public void SetIsDead(bool val) { isDead = val; }
 
     private void Awake()
     {
@@ -112,7 +115,7 @@ public class GamePlayer : NetworkBehaviour
     [ClientRpc]
     public void RpcOnKilled()
     {
-        _IsDead = true;
+        isDead = true;
     }
     [ClientRpc]
     void Rpc_SetBodyColor(GameObject body, GamePlayer killed)
@@ -189,6 +192,11 @@ public class GamePlayer : NetworkBehaviour
     void SetIsVoted_Hook(bool old, bool recent)
     {
         _isVoted = recent;
+    }
+    void SetIsDead_Hook(bool old, bool recent)
+    {
+        isDead = recent;
+        PlayerInfo.Instance.SetIsDead(isDead);
     }
 
     [Command(requiresAuthority =false)]

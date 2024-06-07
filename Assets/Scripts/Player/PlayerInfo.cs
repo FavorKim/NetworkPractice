@@ -9,6 +9,7 @@ public class PlayerInfo : NetworkBehaviour
     [SyncVar(hook = nameof(SetName_Hook)),SerializeField] string playerName;
     [SyncVar(hook = nameof(SetImposter_Hook)),SerializeField] bool isImposter;
     [SyncVar(hook = nameof(SetIsVoted_Hook)),SerializeField] bool isVoted;
+    [SyncVar(hook = nameof(SetIsVoted_Hook)),SerializeField] bool isDead;
     public MeetingPlayerPanel localPanel;
 
     private static PlayerInfo instance;
@@ -38,11 +39,13 @@ public class PlayerInfo : NetworkBehaviour
     public Color GetColor() { return playerColor; }
     public bool GetImposter() {  return isImposter; }
     public bool GetIsVoted() {  return isVoted; }
+    public bool GetIsDead() {  return isDead; }
 
     public void SetColor(Color color) { playerColor = color; }
     public void SetName(string name) {  playerName = name; }
     public void SetImposter(bool val) {  isImposter = val; }
     public void SetIsVoted(bool val) { isVoted = val;}
+    public void SetIsDead(bool val) { isDead = val;}
 
     void SetColor_Hook(Color old, Color recent)
     {
@@ -59,5 +62,9 @@ public class PlayerInfo : NetworkBehaviour
     void SetIsVoted_Hook(bool old, bool recent)
     {
         isVoted = recent;
+    }
+    void SetIsDead_Hook(bool old, bool recent)
+    {
+        isDead = recent;
     }
 }

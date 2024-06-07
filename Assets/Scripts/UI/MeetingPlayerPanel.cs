@@ -30,9 +30,9 @@ public class MeetingPlayerPanel : NetworkBehaviour
         this.player = player;
         Text_Playername.text = player.GetName();
         Img_PlayerColor.material.SetColor("_PlayerColor", player.GetPlayerColor());
-        Img_Dead.gameObject.SetActive(player._IsDead);
+        Img_Dead.gameObject.SetActive(player.GetIsDead());
 
-        if (player._IsDead)
+        if (player.GetIsDead())
         {
             var btn = GetComponent<Button>();
             btn.interactable = false;
@@ -43,7 +43,7 @@ public class MeetingPlayerPanel : NetworkBehaviour
     //[Command(requiresAuthority = false)]
     public void OnClick_Panel()
     {
-        if (PlayerInfo.Instance.GetIsVoted()) return;
+        if (PlayerInfo.Instance.GetIsVoted() || PlayerInfo.Instance.GetIsDead()) return;
         player.Voted();
         PlayerInfo.Instance.SetIsVoted(true);
     }

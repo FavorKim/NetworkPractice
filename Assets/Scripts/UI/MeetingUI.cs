@@ -35,7 +35,7 @@ public class MeetingUI : NetworkBehaviour
         GamePlayer ejectedPlayer = null;
         foreach(GamePlayer player in GameManager.gamePlayers)
         {
-            if (player._IsDead) continue;
+            if (player.GetIsDead()) continue;
             if(player.GetVotedNum() > votedHigh)
             {
                 votedHigh = player.GetVotedNum();

@@ -36,6 +36,7 @@ public class ChattingUI : NetworkBehaviour
 
     public void OnClick_SendBtn()
     {
-        SendMsg();
+        if (!PlayerInfo.Instance.GetIsDead())
+            SendMsg();
     }
 }
