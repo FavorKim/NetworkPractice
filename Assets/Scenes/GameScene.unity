@@ -18480,6 +18480,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1891696019552677931, guid: db28200b8aeca254a813eed874335083, type: 3}
   m_PrefabInstance: {fileID: 680926737}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &680926739 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3178413621250343480, guid: db28200b8aeca254a813eed874335083, type: 3}
+  m_PrefabInstance: {fileID: 680926737}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &680926740
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680926739}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.1358967, y: 1.4902698, z: 1.3034842}
+  m_Center: {x: 3.8827474e-15, y: 0.74513394, z: -0.3482801}
 --- !u!1001 &681252911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36379,6 +36397,7 @@ MonoBehaviour:
   syncInterval: 0
   PlayerPanelPref: {fileID: 4708762782063640277, guid: 3ef54c5704ca2e54e98744f8ad63e9f3, type: 3}
   GridLayout_Players: {fileID: 1685648676}
+  Slider_TimeBar: {fileID: 535925227}
 --- !u!1001 &1118104578
 PrefabInstance:
   m_ObjectHideFlags: 0

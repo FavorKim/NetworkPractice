@@ -11,6 +11,7 @@ public class MeetingUI : NetworkBehaviour
     [SerializeField] GameObject PlayerPanelPref;
     [SerializeField] GridLayoutGroup GridLayout_Players;
     List<MeetingPlayerPanel> meetingPlayerPanels = new List<MeetingPlayerPanel>();
+    [SerializeField] Slider Slider_TimeBar;
 
 
 
@@ -23,7 +24,7 @@ public class MeetingUI : NetworkBehaviour
             meetingPlayerPanels.Add(panel);
             if(player.isLocalPlayer) PlayerInfo.Instance.localPanel = panel;
         }
-        
+        Slider_TimeBar.value = 1;
     }
 
     
@@ -41,7 +42,7 @@ public class MeetingUI : NetworkBehaviour
                 ejectedPlayer = player;
             }
         }
-        return ejectedPlayer.gameObject;
+        return ejectedPlayer == null ? default : ejectedPlayer.gameObject;
     }
 
     //[ClientRpc]
@@ -54,6 +55,7 @@ public class MeetingUI : NetworkBehaviour
     //[Command(requiresAuthority =false)]
     void Cmd_BanPlayer(GameObject ejectedPlayer)
     {
+        if (ejectedPlayer == default) return;
         Rpc_BanPlayer(ejectedPlayer);
     }
 
@@ -82,8 +84,6 @@ public class MeetingUI : NetworkBehaviour
         //yield return new WaitForSeconds(3.0f);
         Cmd_BanPlayer(GetEjectedPlayer());
         ResetPanels();
-        meetingPlayerPanels.Clear();
-        this.gameObject.SetActive(false);
     }
 
     void ResetPanels()
@@ -92,7 +92,8 @@ public class MeetingUI : NetworkBehaviour
         {
             Destroy(panel.gameObject);
         }
-        
+        meetingPlayerPanels.Clear();
+        this.gameObject.SetActive(false);
     }
 
     //[Command(requiresAuthority =false)]
