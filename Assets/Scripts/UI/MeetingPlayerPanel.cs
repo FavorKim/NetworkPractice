@@ -49,20 +49,23 @@ public class MeetingPlayerPanel : NetworkBehaviour
     }
 
 
-    //[Command(requiresAuthority = false)]
+    //[Server]
     public void OnMeetingEnd()
+    {
+        StartCoroutine(CorInstantVoteObj());
+    }
+
+    IEnumerator CorInstantVoteObj()
     {
         for (int i = 0; i < player.GetVotedNum(); i++)
         {
+            yield return new WaitForSeconds(0.7f);
             var votedObj = Instantiate(VotedPref, Group_Voted.transform);
         }
     }
     //[ClientRpc]
     void Rpc_OnMeetingEnd()
     {
-        for (int i = 0; i < player.GetVotedNum(); i++)
-        {
-            var votedObj = Instantiate(VotedPref, Group_Voted.transform);
-        }
+        StartCoroutine(CorInstantVoteObj());
     }
 }

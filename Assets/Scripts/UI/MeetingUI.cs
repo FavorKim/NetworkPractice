@@ -57,7 +57,7 @@ public class MeetingUI : NetworkBehaviour
         Rpc_BanPlayer(ejectedPlayer);
     }
 
-    
+
 
     [Command(requiresAuthority =false)]
     void Cmd_OnEndMeeting()
@@ -73,12 +73,13 @@ public class MeetingUI : NetworkBehaviour
         {
             panel.OnMeetingEnd();
         }
-        StartCoroutine(CorBan());
+        Invoke(nameof(CloseMeeting), 3.0f);
     }
 
-    IEnumerator CorBan()
+    //[ClientRpc]
+    void CloseMeeting()
     {
-        yield return new WaitForSeconds(3.0f);
+        //yield return new WaitForSeconds(3.0f);
         Cmd_BanPlayer(GetEjectedPlayer());
         ResetPanels();
         meetingPlayerPanels.Clear();
@@ -94,9 +95,13 @@ public class MeetingUI : NetworkBehaviour
         
     }
 
-    //[Server]
+    //[Command(requiresAuthority =false)]
     public void OnValueChanged_TimeBar(Single val)
     {
-        if (val == 0) Cmd_OnEndMeeting();
+        if (val == 0) 
+        {
+            GameManager.Instance.Cmd_BodyClean();
+            Cmd_OnEndMeeting(); 
+        }
     }
 }
