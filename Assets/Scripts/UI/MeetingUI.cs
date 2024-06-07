@@ -28,7 +28,7 @@ public class MeetingUI : NetworkBehaviour
 
     
     //[Server]
-    GamePlayer GetEjectedPlayer()
+    GameObject GetEjectedPlayer()
     {
         int votedHigh = 0;
         GamePlayer ejectedPlayer = null;
@@ -41,19 +41,19 @@ public class MeetingUI : NetworkBehaviour
                 ejectedPlayer = player;
             }
         }
-        return ejectedPlayer;
+        return ejectedPlayer.gameObject;
     }
 
     [ClientRpc]
-    void Rpc_BanPlayer(GamePlayer ejectedPlayer)
+    void Rpc_BanPlayer(GameObject ejectedPlayer)
     {
-        Debug.Log(ejectedPlayer.GetName() + "is Ejected");
+        Debug.Log(ejectedPlayer.GetComponent<GamePlayer>().GetName() + "is Ejected");
     }
 
     [Command(requiresAuthority =false)]
-    void Cmd_BanPlayer(GamePlayer ejectedPlayer)
+    void Cmd_BanPlayer(GameObject ejectedPlayer)
     {
-        ejectedPlayer.RpcOnKilled();
+        ejectedPlayer.GetComponent<GamePlayer>().RpcOnKilled();
         Rpc_BanPlayer(ejectedPlayer);
     }
 
