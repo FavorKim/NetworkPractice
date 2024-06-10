@@ -23,7 +23,7 @@ public class GamePlayer : NetworkBehaviour
     [SerializeField, SyncVar(hook = nameof(SetVotedNum_Hook))] int _votedNumber = 0;
     [SerializeField, SyncVar(hook = nameof(SetIsVoted_Hook))] private bool _isVoted;
     [SerializeField] int int_KillCoolTime;
-    [SerializeField]int _curKillCoolTime;
+    [SerializeField] int _curKillCoolTime;
 
     Vector3 _moveDir;
     Vector2 _dir;
@@ -42,8 +42,8 @@ public class GamePlayer : NetworkBehaviour
     public int GetVotedNum() { return _votedNumber; }
     public bool GetIsVoted() { return _isVoted; }
     public bool GetIsDead() { return isDead; }
-    public int GetKillCoolTime() {  return int_KillCoolTime; }
-    public int GetCurKillCoolTime() {  return _curKillCoolTime; }
+    public int GetKillCoolTime() { return int_KillCoolTime; }
+    public int GetCurKillCoolTime() { return _curKillCoolTime; }
 
     public void SetIsDead(bool val) { isDead = val; }
 
@@ -72,9 +72,17 @@ public class GamePlayer : NetworkBehaviour
         Cmd_SetColor(PlayerInfo.Instance.GetColor());
         KillBtn = FindAnyObjectByType<KillBtn>();
         //KillBtn.gameObject.SetActive(false);
-        
+
     }
 
+
+    void SetPlayerInvisible()
+    {
+        GetComponent<MeshRenderer>().enabled = false;
+        Gameobject_PlayerHead.GetComponent<MeshRenderer>().enabled = false;
+        Gameobject_PlayerHead.GetComponentInChildren<MeshRenderer>().enabled = false;
+        Text_PlayerName.gameObject.SetActive(false);
+    }
 
     #region Local
     void MovePlayer()
@@ -103,7 +111,7 @@ public class GamePlayer : NetworkBehaviour
     void RayCastBody()
     {
         RaycastHit body;
-        if (Physics.Raycast(Gameobject_PlayerHead.transform.position, Gameobject_PlayerHead.transform.forward,out body, 4.0f, LayerMask_Body))
+        if (Physics.Raycast(Gameobject_PlayerHead.transform.position, Gameobject_PlayerHead.transform.forward, out body, 4.0f, LayerMask_Body))
         {
             GameSceneUIManager.Instance.CmdRpc_Report(body.collider.gameObject);
         }
@@ -118,12 +126,15 @@ public class GamePlayer : NetworkBehaviour
     public void RpcSetImposter(bool isImposter)
     {
         this._isImposter = isImposter;
-        if (isLocalPlayer) 
+        if (isLocalPlayer)
         {
-            PlayerInfo.Instance.SetImposter(isImposter); 
-            KillBtn.gameObject.SetActive(true);
-            KillBtn.InitPlayer(this);
-            if (isImposter) StartCoroutine(CorKillCooltime());
+            PlayerInfo.Instance.SetImposter(isImposter);
+            if (isImposter)
+            {
+                KillBtn.gameObject.SetActive(true);
+                KillBtn.InitPlayer(this);
+                StartCoroutine(CorKillCooltime());
+            }
         }
 
         //Button_Kill.interactable = true;
@@ -133,6 +144,8 @@ public class GamePlayer : NetworkBehaviour
     public void RpcOnKilled()
     {
         isDead = true;
+        gameObject.tag = "Ghost";
+        SetPlayerInvisible();
     }
     [ClientRpc]
     void Rpc_SetBodyColor(GameObject body, GamePlayer killed)
@@ -195,7 +208,7 @@ public class GamePlayer : NetworkBehaviour
     }
     public void OnKill(InputValue val)
     {
-        if (_isImposter && _canKill)
+        if (_isImposter && _canKill && !isDead)
         {
             var target = RaycastGetPlayer();
             if (target != null || target != default)
@@ -204,7 +217,8 @@ public class GamePlayer : NetworkBehaviour
     }
     public void OnReport(InputValue val)
     {
-        RayCastBody();
+        if (!isDead)
+            RayCastBody();
     }
 
     public event Action OnCoolTimeReduced;
@@ -238,7 +252,7 @@ public class GamePlayer : NetworkBehaviour
     }
 
 
-    [Command(requiresAuthority =false)]
+    [Command(requiresAuthority = false)]
     public void Voted()
     {
         _votedNumber++;
@@ -261,7 +275,7 @@ public class GamePlayer : NetworkBehaviour
     {
         _canKill = false;
         _curKillCoolTime = int_KillCoolTime;
-        while (_curKillCoolTime>0)
+        while (_curKillCoolTime > 0)
         {
             yield return new WaitForSeconds(1);
             _curKillCoolTime--;

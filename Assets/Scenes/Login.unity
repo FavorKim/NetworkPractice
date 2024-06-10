@@ -2216,7 +2216,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2066440985075487381, guid: 5b83491aa831b4641aa025af02391ea3, type: 3}
       propertyPath: _server
-      value: 43.201.6.61
+      value: 54.180.232.225
       objectReference: {fileID: 0}
     - target: {fileID: 2066440985418537793, guid: 5b83491aa831b4641aa025af02391ea3, type: 3}
       propertyPath: m_Name
@@ -2649,7 +2649,7 @@ PrefabInstance:
       objectReference: {fileID: 316886811}
     - target: {fileID: 8043320466110939858, guid: 14652d3efa2f66048bd7d7af8995cc09, type: 3}
       propertyPath: _server
-      value: 43.201.6.61
+      value: 54.180.232.225
       objectReference: {fileID: 0}
     - target: {fileID: 8043320466110939858, guid: 14652d3efa2f66048bd7d7af8995cc09, type: 3}
       propertyPath: GameObject_MainMenu
