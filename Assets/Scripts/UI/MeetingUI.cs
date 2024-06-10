@@ -96,7 +96,7 @@ public class MeetingUI : NetworkBehaviour
             Destroy(panel.gameObject);
         }
         meetingPlayerPanels.Clear();
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
     }
 
 
