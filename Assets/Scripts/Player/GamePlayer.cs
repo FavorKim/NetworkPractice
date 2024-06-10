@@ -144,7 +144,7 @@ public class GamePlayer : NetworkBehaviour
     public void RpcOnKilled()
     {
         isDead = true;
-        gameObject.tag = "Ghost";
+        gameObject.layer = LayerMask.NameToLayer("Ghost");
         SetPlayerInvisible();
     }
     [ClientRpc]
