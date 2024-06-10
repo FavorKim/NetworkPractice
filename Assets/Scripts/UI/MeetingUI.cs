@@ -85,6 +85,7 @@ public class MeetingUI : NetworkBehaviour
         //yield return new WaitForSeconds(3.0f);
         Cmd_BanPlayer(GetEjectedPlayer());
         ResetPanels();
+        this.gameObject.SetActive(false);
         GameManager.Instance.IsImposterWin();
     }
 

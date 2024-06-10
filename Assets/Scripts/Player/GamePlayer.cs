@@ -197,7 +197,9 @@ public class GamePlayer : NetworkBehaviour
     {
         if (_isImposter && _canKill)
         {
-            RaycastGetPlayer().KillCommand();
+            var target = RaycastGetPlayer();
+            if (target != null || target != default)
+                target.KillCommand();
         }
     }
     public void OnReport(InputValue val)
